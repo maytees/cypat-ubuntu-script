@@ -8,7 +8,7 @@ def firewall_config():
     # then turn on logging
     
     # ufw exists, if not, install it and "recursion"
-    if exists("/bin/ufw") or exists("/usr/bin/ufw"):
+    if exists("/bin/ufw") or exists("/usr/bin/ufw") or exists("/usr/sbin/ufw"):
         print("UFW exists, configuring..")
         
         os.system("sudo ufw enable")
