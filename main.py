@@ -21,7 +21,6 @@ def firewall_config():
     fwq = input("Would you like to configure firewall (UFW) (y,n)")
 
     if fwq == 'n':
-        print("no")
         return
     elif fwq != 'y':
         print("You cant even listen to basic commands?")
