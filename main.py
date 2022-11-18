@@ -2,6 +2,15 @@ import os
 import sys
 from os.path import exists
 
+# Checks if script was run with root permissions -
+# Not taken from stack overflow, not at all
+#     Thanks, oz123
+try:
+    os.rename("/etc/foo", '/etc/bar')
+except IOError as e:
+    if (e[0] == errno.EPERM):
+        sys.exit("Please run this script with root permissions!")
+
 fcfg = 0
 def firewall_config():
     # if ufw is not installed, install it,
