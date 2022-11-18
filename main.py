@@ -17,7 +17,16 @@ def firewall_config():
     # then turn on logging
     
     # ufw exists, if not, install it and "recursion"
+    
+    fwq = input("Would you like to configure firewall (UFW) (y,n)")
 
+    if fwq == 'n':
+        pass
+    elif fwq != 'y':
+        print("You cant even listen to basic commands?")
+        firewall_config()
+        pass
+        
     if exists("/bin/ufw") or exists("/usr/bin/ufw") or exists("/usr/sbin/ufw"):
         print("UFW exists, configuring..")
         
