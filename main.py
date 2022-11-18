@@ -117,5 +117,20 @@ def lightdm_config():
         print("Could not find lightdm config! Passing.")
         pass # don't know why I should have this here
 
+def updates():
+    updateq = input("Would you like to update/upgrade? (y,n)")
+    if updateq == 'y':
+        os.system("sudo apt update")
+        print("Finished sudo apt update")
+        
+        os.system("sudo apt dist-updgrade")
+        print("Ran sudo apt dist upgrade")
+        
+    elif updateq != 'n':
+        print("Can you please type something that is accepted?")
+        updates()
+
+    
+updates()
 firewall_config()    
 lightdm_config()
