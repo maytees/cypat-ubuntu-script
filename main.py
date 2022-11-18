@@ -79,6 +79,14 @@ def firewall_config():
             pass
 
         firewall_config()
+        
+    sshq = input("Would you like to allow port 22 (Check readme!) (y,n)")
+    if sshq == 'y':
+        os.system("sudo ufw allow 22 && sudo ufw allow ssh")
+        print("Opened SSH port")
+    elif sshq != 'n':
+        print("Its a simple y or n question, dont answer anything else buster.")
+        firewall_config()
 
 # This should write
 def lightdm_config():

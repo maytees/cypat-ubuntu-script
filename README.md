@@ -12,7 +12,7 @@ This can be used for learning or makingy your own script.
     - [ ] Normal
     - [ ] Config security update rules
 - [x] UFW Config/setup
-    - [ ] Allow port 22 for SSH (if needed)
+    - [x] Allow port 22 for SSH (if needed)
 - [x] Lightdm config
     - [ ] Write to file, rather than append
 - [ ] User remove/add
