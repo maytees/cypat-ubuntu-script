@@ -21,11 +21,12 @@ def firewall_config():
     fwq = input("Would you like to configure firewall (UFW) (y,n)")
 
     if fwq == 'n':
-        pass
+        print("no")
+        return
     elif fwq != 'y':
         print("You cant even listen to basic commands?")
         firewall_config()
-        pass
+        return
         
     if exists("/bin/ufw") or exists("/usr/bin/ufw") or exists("/usr/sbin/ufw"):
         print("UFW exists, configuring..")
@@ -76,7 +77,7 @@ def firewall_config():
         
         if fcfg + 1 == 1:
             print("Cant find UFW directory!")
-            pass
+            return
 
         firewall_config()
         
@@ -99,11 +100,11 @@ def lightdm_config():
     ldmq = input("Would you like to configure lightdm? (y,n)")
     
     if ldmq == 'n':
-        pass
+        return
     elif ldmq != 'y':
         print("You cant even listen to basic commands?")
         lightdm_config()
-        pass
+        return
 
     path = "/usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf"
     if exists(path):
@@ -114,8 +115,8 @@ def lightdm_config():
         lightdmconf.write(settings)
         lightdmconf.close()
     else:
-        print("Could not find lightdm config! Passing.")
-        pass # don't know why I should have this here
+        print("Could not find lightdm config! Exiting lightdm config!.")
+        return # don't know why I should have this here
 
 def updates():
     updateq = input("Would you like to update/upgrade? (y,n)")
