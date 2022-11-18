@@ -2,12 +2,14 @@ import os
 import sys
 from os.path import exists
 
+fcfg = 0
 def firewall_config():
     # if ufw is not installed, install it,
     # enable it, and ask for ports to allow or deny
     # then turn on logging
     
     # ufw exists, if not, install it and "recursion"
+
     if exists("/bin/ufw") or exists("/usr/bin/ufw") or exists("/usr/sbin/ufw"):
         print("UFW exists, configuring..")
         
@@ -54,7 +56,41 @@ def firewall_config():
         print("UFW is not installed, installing it...") 
         os.system("sudo apt install ufw") 
         print("UFW should be installed?")
+        
+        if fcfg + 1 == 1:
+            print("Cant find UFW directory!")
+            pass
 
         firewall_config()
 
+# This should write
+def lightdm_config():
+    # Edit file /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
+    # add the following:
+    # allow-guest = false
+    # greeter-hide-users=true
+    # greeter-show-manual-login=true
+    # autologin-user=none <-- this broke our last comp image
+    ldmq = input("Would you like to configure lightdm? (y,n)")
+    
+    if ldmq == 'n':
+        pass
+    elif ldmq != 'y':
+        print("You cant even listen to basic commands?")
+        lightdm_config()
+        pass
+
+    path = "/usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf"
+    if exists(path):
+        settings = "\nallow-guest=false\ngreeter-hide-users=true\ngreeter-show-manual-login=true\nautologin-user=none"
+        print("Adding settings:", settings, " to", path)
+        
+        lightdmconf = open(path, "a")
+        lightdmconf.write(settings)
+        lightdmconf.close()
+    else:
+        print("Could not find lightdm config! Passing.")
+        pass # don't know why I should have this here
+
 firewall_config()    
+lightdm_config()
