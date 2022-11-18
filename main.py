@@ -43,7 +43,7 @@ def firewall_config():
                     print("No port config because you cant do something simple!")
                     notdone = False
                     break
-            elif portsq.lower() == 'n';
+            elif portsq.lower() == 'n':
                 notdone = False
                 break
             else:
