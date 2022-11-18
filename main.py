@@ -130,6 +130,8 @@ def updates():
         print("Can you please type something that is accepted?")
         updates()
 
+def remove_bad_apps():
+    pass
     
 updates()
 firewall_config()    
