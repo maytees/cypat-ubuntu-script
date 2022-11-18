@@ -56,4 +56,5 @@ def firewall_config():
         print("UFW should be installed?")
 
         firewall_config()
-    
+
+firewall_config()    
