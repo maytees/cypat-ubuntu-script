@@ -152,6 +152,45 @@ def remove_bad_apps():
     
     print("Finished removing bad applications, though please make sure to check for some more, as not all are listed here.")
 
+def password_securing():
+    # chmod 640 /etc/shadow
+    # passord rules in /etc/login.defs
+        # These password rules are:
+        #     PASS_MAX_DAYS  90
+        #     PASS_MIN_DAYS  10
+        #     PASS_WARN_AGE  7
+        
+    psq = input("Would you like to secure/configure password policies? (y,n)")
+    if psq == 'n':
+        return
+    elif psq != 'y':
+        print("Just put in the right input!")
+        password_securing()
+        return
+    
+    os.system("sudo chmod 640 /etc/shadow")
+    print("Gave 640 permissions to /etc/shadow (where passwords are stored)")
+    
+    os.system("sudo apt install libpam-cracklib")    
+    print("Installed libpam-cracklib")
+
+    # Does password policies - not sure if I should be doing this this way
+    with open('./preset_files/login.defs', 'r') as preset, open('/etc/login.defs', 'w') as logindefs:
+        for line in preset:
+            logindefs.write(line)
+    print("Wrote preset ./preset_files/login.defs to /etc/login.defs!")
+    
+    with open('./preset_files/common-auth', 'r') as preset, open('/etc/pam.d/common-auth', 'w') as common_auth:
+        for line in preset:
+            common_auth.write(line)
+    print("Wrote preset ./preset_files/common-auth to /etc/pam.d/common-auth")
+    
+    with open('./preset_files/common-password', 'r') as preset, open('/etc/pam.d/common-password', 'w') as common_password:
+        for line in preset:
+            common_password.write(line)
+    print("Wrote preset ./preset_files/common-password to /etc/pam.d/common-password")
+    
+    
 updates()
 firewall_config()    
 lightdm_config()

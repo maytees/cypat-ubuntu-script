@@ -18,7 +18,8 @@ This can be used for learning or makingy your own script.
 - [ ] User remove/add
 - [ ] Group remove/add
 - [ ] Passwords
-    - [ ] Password rules - in /etc/login.defs
-    - [ ] chmod 640 /etc/shadow
+    - [x] Password rules - in /etc/login.defs
+    - [x] chmod 640 /etc/shadow
+    - [ ] Change insecure passwords
 - [x] Remove bad applications
 
