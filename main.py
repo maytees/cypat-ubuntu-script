@@ -145,7 +145,7 @@ def remove_bad_apps():
         return
     
     badfile = open('bad.txt', 'r')  
-    progs = badfile.readlineread()
+    progs = badfile.readlines()
     
     for prog in progs:
         os.system("sudo apt remove " + prog)
