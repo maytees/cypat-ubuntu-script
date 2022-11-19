@@ -131,8 +131,25 @@ def updates():
         updates()
 
 def remove_bad_apps():
-    pass
+    # Read from bad.txt line by line and plug in the program to sudo apt remove *prog*
+    rmbaq = input("Would you like to remove bad apps? (y,n)")
     
+    if rmbaq == 'n':
+        return
+    elif rmaq != 'y':
+        print("Lets try this again..")
+        remove_bad_apps()
+        return
+    
+    badfile = open('bad.txt', 'r')  
+    progs = badfile.readlineread()
+    
+    for prog in progs:
+        os.system("sudo apt remove " + prog)
+    
+    print("Finished removing bad applications, though please make sure to check for some more, as not all are listed here.")
+
 updates()
 firewall_config()    
 lightdm_config()
+remove_bad_apps()

@@ -12,7 +12,7 @@ This can be used for learning or makingy your own script.
     - [x] Normal
     - [ ] Config security update rules
 - [x] UFW Config/setup
-    - [x] Allow port 22 for SSH (if needed) - HAVE NOT TESTED
+    - [x] Allow port 22 for SSH (if needed)
 - [x] Lightdm config
     - [ ] Write to file, rather than append
 - [ ] User remove/add
@@ -20,5 +20,5 @@ This can be used for learning or makingy your own script.
 - [ ] Passwords
     - [ ] Password rules - in /etc/login.defs
     - [ ] chmod 640 /etc/shadow
-- [ ] Remove bad applications
+- [x] Remove bad applications
 
