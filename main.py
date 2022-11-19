@@ -10,6 +10,8 @@ isroot = os.geteuid() == 0
 if not isroot:
     sys.exit("Please run the script as root!")
 
+print("Please make sure that you read the readme before running this!")
+ 
 fcfg = 0
 def firewall_config():
     # if ufw is not installed, install it,
@@ -189,8 +191,7 @@ def password_securing():
         for line in preset:
             common_password.write(line)
     print("Wrote preset ./preset_files/common-password to /etc/pam.d/common-password")
-    
-    
+         
 updates()
 firewall_config()    
 lightdm_config()
