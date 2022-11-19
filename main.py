@@ -136,7 +136,7 @@ def remove_bad_apps():
     
     if rmbaq == 'n':
         return
-    elif rmaq != 'y':
+    elif rmbaq != 'y':
         print("Lets try this again..")
         remove_bad_apps()
         return
