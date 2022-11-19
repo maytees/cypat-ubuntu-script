@@ -123,6 +123,9 @@ def updates():
         os.system("sudo apt update")
         print("Finished sudo apt update")
         
+        os.system("sudo apt upgrade")
+        print("Ran sudo apt upgrade")
+
         os.system("sudo apt dist-upgrade")
         print("Ran sudo apt dist upgrade")
         
