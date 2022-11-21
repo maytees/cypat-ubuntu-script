@@ -304,11 +304,11 @@ def config_ssh():
 
 # Removes ssh packages and closes ports
 def disconfig_ssh():
-    os.system("sudo ufw deny 22 && sudo ufw deny ssh")
-    log("Closed SSH port")
-    
     os.system("sudo apt remove openssh-server ssh")
     log("Removed SSH packages")
+
+    os.system("sudo ufw deny 22 && sudo ufw deny ssh")
+    log("Closed SSH port")
     
     log("END OF DISCONFIG SSH")
 
