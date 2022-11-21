@@ -31,7 +31,7 @@ def question(q):
 isroot = os.geteuid() == 0
 
 if not isroot:
-    sys.exit("Please run the script as root!")
+    sys.exit(bordercolors.FAIL + "Please run the script as root!" + bordercolors.ENDC)
 
 warn("Please make sure that you read the readme before running this!")
 
@@ -330,6 +330,18 @@ def networking_config():
         os.system("sudo sysctl -p")
         log("Fixed up sysctl conf")
 
+# This will be a questionare, which will ask for the list of users, excluding the admins,
+#  and will organize everything/everyone
+def users():
+    uq = input(question("Would you like to configure the users? Keep in mind that this may not be stable (y,n)"))
+    if uq == 'n':
+        return
+    elif uq != 'y':
+        err("Lets try this again, since you cannot input y or n")
+        users()
+        return
+    pass
+        
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
     
@@ -351,6 +363,7 @@ lightdm_config()
 remove_bad_apps()
 password_securing()
 networking_config()
+users()
 
 what_to_do_next()
 
