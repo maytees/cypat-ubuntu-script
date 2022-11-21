@@ -14,13 +14,13 @@ class bordercolors:
     UNDERLINE = '\033[4m'
     
 def err(msg):
-    print(bordercolors.FAIL + msg + bordercolors.ENDC)
+    print(bordercolors.FAIL + msg + bordercolors.ENDC + '\n')
 
 def warn(msg):
-    print(bordercolors.WARNING + msg + bordercolors.ENDC)
+    print(bordercolors.WARNING + msg + bordercolors.ENDC + '\n')
 
 def log(msg):
-    print(bordercolors.OKCYAN + msg + bordercolors.ENDC)
+    print(bordercolors.OKCYAN + msg + bordercolors.ENDC + '\n')
 
 def question(q):
     return bordercolors.OKGREEN + q + bordercolors.ENDC + '\n'
@@ -34,7 +34,35 @@ if not isroot:
     sys.exit("Please run the script as root!")
 
 warn("Please make sure that you read the readme before running this!")
- 
+
+IS_SSH = False
+IS_MAIL = False
+
+def setup_questions():
+    log("These are some setup questions: ")
+
+    setupqssh = input(question("\tIs this an SSH server? Should this machine have SSH enabled?"))
+    if setupqssh == 'y':
+        IS_SSH = True
+    elif setupqssh == 'n':
+        IS_SSH = False # This is just here to make sure..
+    else:
+        err("Lets try this again..")
+        setup_questions()
+        return
+
+    setupqmail = input(question("\tIs this a mail server?"))
+    if setupqmail == 'y':
+        IS_MAIL = True
+    elif setupqmail == 'n':
+        IS_MAIL = False
+    else:
+        err("Lets try this again.")
+        setup_questions()
+        return
+        
+    log("Thanks for your response 8)")    
+
 fcfg = 0
 def firewall_config():
     # if ufw is not installed, install it,
@@ -105,13 +133,20 @@ def firewall_config():
 
         firewall_config()
         
-    sshq = input(question("Would you like to allow port 22 (Check readme!) (y,n)"))
-    if sshq == 'y':
-        os.system("sudo ufw allow 22 && sudo ufw allow ssh")
-        log("Opened SSH port")
-    elif sshq != 'n':
-        err("Its a simple y or n question, dont answer anything else buster.")
-        firewall_config()
+    # sshq = input(question("Would you like to allow port 22 (Check readme!) (y,n)"))
+    # if sshq == 'y':
+    #     os.system("sudo ufw allow 22 && sudo ufw allow ssh")
+    #     log("Opened SSH port")
+    # elif sshq != 'n':
+    #     err("Its a simple y or n question, dont answer anything else buster.")
+    #     firewall_config()
+    
+    # if IS_SSH:
+    #     os.system("sudo ufw allow 22 && sudo ufw allow ssh")
+    #     log("Open SSH port")
+    # else:
+    #     os.system("sudo ufw deny 22 && sudo ufw deny ssh")
+    #     log("Closed SSH port")
 
 # This should write
 def lightdm_config():
@@ -233,10 +268,39 @@ def password_securing():
     
     warn("Please open a new terminal tab and check if `sudo echo hi` has worked, if not, then run: sudo apt remove libpam-cracklib")
     
+# Allows ssh ports, install openssh-server and ssh packages,
+#   configures /etc/ssh/sshd_config
+def config_ssh():
+    os.system("sudo apt install openssh-server ssh")
+    log("Installing openssh-server and ssh packages")
 
-         
+    os.system("sudo ufw allow 22 && sudo ufw allow ssh")
+    log("Opened SSH port")
+    
+    # Config /etc/ssh/sshd_config
+    # NOTE TO SELF - MAKE SURE TO CLOSE THE FILE AFTER
+    with open("./preset_files/sshd_config", 'r') as preset, open("/etc/ssh/sshd_config", 'w') as sshdconfig:
+        for line in preset:
+            sshdconfig.write(line)
+        preset.close()
+        sshdconfig.close()
+
+# Removes ssh packages and closes ports
+def disconfig_ssh():
+    os.system("sudo ufw deny 22 && sudo ufw deny ssh")
+    log("Closed SSH port")
+    
+    os.system("sudo apt remove openssh-server ssh")
+    log("Removed SSH packages")
+             
 updates()
-firewall_config()    
+firewall_config()     
+
+if IS_SSH:
+    config_ssh()
+else:
+    disconfig_ssh()
+    
 lightdm_config()
 remove_bad_apps()
 password_securing()
