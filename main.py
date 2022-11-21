@@ -35,17 +35,17 @@ if not isroot:
 
 warn("Please make sure that you read the readme before running this!")
 
-IS_SSH = False
-IS_MAIL = False
+is_ssh = False
+is_mail = False
 
 def setup_questions():
     log("These are some setup questions: ")
 
     setupqssh = input(question(" - Is this an SSH server? Should this machine have SSH enabled? (y,n)"))
     if setupqssh == 'y':
-        IS_SSH = True
+        is_ssh = True
     elif setupqssh == 'n':
-        IS_SSH = False # This is just here to make sure..
+        is_ssh = False # This is just here to make sure..
     else:
         err("Lets try this again..")
         setup_questions()
@@ -53,9 +53,9 @@ def setup_questions():
 
     setupqmail = input(question(" - Is this a mail server? (y,n)"))
     if setupqmail == 'y':
-        IS_MAIL = True
+        is_mail = True
     elif setupqmail == 'n':
-        IS_MAIL = False
+        is_mail = False
     else:
         err("Lets try this again.")
         setup_questions()
@@ -313,7 +313,7 @@ setup_questions()
 updates()
 firewall_config()     
 
-if IS_SSH:
+if is_ssh:
     config_ssh()
 else:
     disconfig_ssh()
