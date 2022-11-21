@@ -11,9 +11,9 @@ This can be used for learning or makingy your own script.
     - [x] Dist
     - [x] Normal
     - [ ] Config security update rules
-- [ ] SSH config
-    - [ ] Allow/Deny port 22
-    - [ ] sshd_config file config
+- [x] SSH config
+    - [x] Allow/Deny port 22
+    - [x] sshd_config file config
 - [x] UFW Config/setup
     - [x] Allow port 22 for SSH (if needed)
 - [x] Lightdm config
