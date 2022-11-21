@@ -61,7 +61,7 @@ def setup_questions():
         setup_questions()
         return
         
-    log("Thanks for your response 8)")    
+    log("END OF SETUP QUESTIONS")    
 
 fcfg = 0
 def firewall_config():
@@ -148,6 +148,8 @@ def firewall_config():
     #     os.system("sudo ufw deny 22 && sudo ufw deny ssh")
     #     log("Closed SSH port")
 
+    log("END OF FIREWALL CONFIG")
+
 # This should write
 def lightdm_config():
     # Edit file /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
@@ -176,6 +178,8 @@ def lightdm_config():
     else:
         warn("Could not find lightdm config! Exiting lightdm config!.")
         return # don't know why I should have this here
+    
+    log("END OF LIGHTDM CONFIG")
 
 def updates():
     updateq = input(question("Would you like to update/upgrade? (y,n)"))
@@ -192,6 +196,8 @@ def updates():
     elif updateq != 'n':
         err("Can you please type something that is accepted?")
         updates()
+    
+    log("END OF UPDATES")
 
 def remove_bad_apps():
     # Read from bad.txt line by line and plug in the program to sudo apt remove *prog*
@@ -211,6 +217,8 @@ def remove_bad_apps():
         os.system("sudo apt remove " + prog)
     
     log("Finished removing bad applications, though please make sure to check for some more, as not all are listed here.")
+    
+    log("END OF REMOVE BAD APPS")
 
 def common_config():
     with open('./preset_files/common-auth', 'r') as preset, open('/etc/pam.d/common-auth', 'w') as common_auth:
@@ -227,6 +235,8 @@ def common_config():
         common_password.close()
     log("Wrote preset ./preset_files/common-password to /etc/pam.d/common-password")
     
+    log("END OF COMMON CONFIG")    
+
 def password_securing():
     # chmod 640 /etc/shadow
     # passord rules in /etc/login.defs
@@ -268,6 +278,8 @@ def password_securing():
     
     warn("Please open a new terminal tab and check if `sudo echo hi` has worked, if not, then run: sudo apt remove libpam-cracklib")
     
+    log("END OF PASSWORD SECURING")
+
 # Allows ssh ports, install openssh-server and ssh packages,
 #   configures /etc/ssh/sshd_config
 def config_ssh():
@@ -284,6 +296,8 @@ def config_ssh():
             sshdconfig.write(line)
         preset.close()
         sshdconfig.close()
+        
+    log("END OF CONFIG SSH")
 
 # Removes ssh packages and closes ports
 def disconfig_ssh():
@@ -292,6 +306,8 @@ def disconfig_ssh():
     
     os.system("sudo apt remove openssh-server ssh")
     log("Removed SSH packages")
+    
+    log("END OF DISCONFIG SSH")
 
 setup_questions()             
 updates()
@@ -301,7 +317,10 @@ if IS_SSH:
     config_ssh()
 else:
     disconfig_ssh()
-    
+
+log("UFW Status: ")    
+os.system("sudo ufw status")
+
 lightdm_config()
 remove_bad_apps()
 password_securing()
