@@ -314,7 +314,21 @@ def disconfig_ssh():
 
 # Will most likely move firewall_config() into here, but for now I will sleep : )
 def networking_config():
-    pass
+    ncq = input(question("Would you like to config networking stuff? (y,n) (you should :)"))
+    if ncq == 'n':
+        return
+    elif ncq != 'y':
+        err("Lets try this again you doofus")
+        networking_config()
+        return
+
+    with open('./preset/sysctl.conf', 'r') as preset, open('/etc/sysctl.conf', 'w') as sysctl:
+        for line in preset:
+            sysctl.write(line)
+        preset.close()
+        sysctl.close()
+        os.system("sudo sysctl -p")
+        log("Fixed up sysctl conf")
     
 setup_questions()             
 updates()

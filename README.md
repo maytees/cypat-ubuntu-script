@@ -32,4 +32,4 @@ This can be used for learning or makingy your own script.
 - [ ] Firefox Config (not sure how this will be done, there most likely is a config file)
 - [ ] Grub config
 - [ ] Remove Samba access (connection between Win and Linux, Google for more info)
-- [ ] SYSCTL Config (/etc/sysctl.conf)
+- [x] SYSCTL Config (/etc/sysctl.conf)
