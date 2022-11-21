@@ -35,6 +35,16 @@ if not isroot:
 
 warn("Please make sure that you read the readme before running this!")
 
+print(bordercolors.OKBLUE + "\n\n Welcome to this very cool script, which will help you.." + bordercolors.ENDC)
+print(bordercolors.HEADER + "There are a few things you must do before running this. \n" + bordercolors.ENDC)
+
+print(bordercolors.OKCYAN)
+print(" - 1st of all, I would like you to paste in the non admin users in the non-admins.txt file in the source root")
+print("    - Refer to the non-admins-example.txt for a reference on formatting")
+print(" - 2nd of all, I would like you to paste in the administrator users in the admins.txt, please separate the passwords with a space")
+print("    - Refer to the admins-example.txt for a reference on formatting")
+print(bordercolors.ENDC) #ends cyan color
+
 is_ssh = False
 is_mail = False
 
@@ -340,6 +350,9 @@ def users():
         err("Lets try this again, since you cannot input y or n")
         users()
         return
+    
+    
+    
     pass
         
 def what_to_do_next():
