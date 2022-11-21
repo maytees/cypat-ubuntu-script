@@ -203,16 +203,22 @@ def password_securing():
     with open('./preset_files/login.defs', 'r') as preset, open('/etc/login.defs', 'w') as logindefs:
         for line in preset:
             logindefs.write(line)
+        preset.close()
+        logindefs.close()
     log("Wrote preset ./preset_files/login.defs to /etc/login.defs!")
     
     with open('./preset_files/common-auth', 'r') as preset, open('/etc/pam.d/common-auth', 'w') as common_auth:
         for line in preset:
             common_auth.write(line)
+        preset.close()
+        common_auth.close()        
     log("Wrote preset ./preset_files/common-auth to /etc/pam.d/common-auth")
     
     with open('./preset_files/common-password', 'r') as preset, open('/etc/pam.d/common-password', 'w') as common_password:
         for line in preset:
             common_password.write(line)
+        preset.close()
+        common_password.close()
     log("Wrote preset ./preset_files/common-password to /etc/pam.d/common-password")
          
 updates()
