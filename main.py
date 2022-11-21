@@ -177,6 +177,21 @@ def remove_bad_apps():
     
     log("Finished removing bad applications, though please make sure to check for some more, as not all are listed here.")
 
+def common_config():
+    with open('./preset_files/common-auth', 'r') as preset, open('/etc/pam.d/common-auth', 'w') as common_auth:
+        for line in preset:
+            common_auth.write(line)
+        preset.close()
+        common_auth.close()        
+    log("Wrote preset ./preset_files/common-auth to /etc/pam.d/common-auth")
+    
+    with open('./preset_files/common-password', 'r') as preset, open('/etc/pam.d/common-password', 'w') as common_password:
+        for line in preset:
+            common_password.write(line)
+        preset.close()
+        common_password.close()
+    log("Wrote preset ./preset_files/common-password to /etc/pam.d/common-password")
+    
 def password_securing():
     # chmod 640 /etc/shadow
     # passord rules in /etc/login.defs
@@ -207,7 +222,7 @@ def password_securing():
         logindefs.close()
     log("Wrote preset ./preset_files/login.defs to /etc/login.defs!")
     
-    commonq = input(question("Would you like to configure common-auth and common-password? (y,n) (this is not reccomended if pam installation asked you to reset config)"))
+    commonq = input(question("Would you like to configure common-auth and common-password? (y,n) (this is not reccomended)"))
     
     if commonq == 'n':
         return
@@ -216,20 +231,7 @@ def password_securing():
     
     common_config()
     
-def common_config():
-    with open('./preset_files/common-auth', 'r') as preset, open('/etc/pam.d/common-auth', 'w') as common_auth:
-        for line in preset:
-            common_auth.write(line)
-        preset.close()
-        common_auth.close()        
-    log("Wrote preset ./preset_files/common-auth to /etc/pam.d/common-auth")
-    
-    with open('./preset_files/common-password', 'r') as preset, open('/etc/pam.d/common-password', 'w') as common_password:
-        for line in preset:
-            common_password.write(line)
-        preset.close()
-        common_password.close()
-    log("Wrote preset ./preset_files/common-password to /etc/pam.d/common-password")
+
          
 updates()
 firewall_config()    
