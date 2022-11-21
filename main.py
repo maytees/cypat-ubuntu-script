@@ -22,6 +22,9 @@ def warn(msg):
 def log(msg):
     print(bordercolors.OKCYAN + msg + bordercolors.ENDC)
 
+def question(q):
+    return msg = bordercolors.OKGREEN + q + bordercolors.ENDC
+    
 # Checks if script was run with root permissions -
 # Not inspired by stack overflow, not at all
 #    Thanks, Dmytro
@@ -30,7 +33,7 @@ isroot = os.geteuid() == 0
 if not isroot:
     sys.exit("Please run the script as root!")
 
-print("Please make sure that you read the readme before running this!")
+warn("Please make sure that you read the readme before running this!")
  
 fcfg = 0
 def firewall_config():
@@ -40,7 +43,7 @@ def firewall_config():
     
     # ufw exists, if not, install it and "recursion"
     
-    fwq = input("Would you like to configure firewall (UFW) (y,n)")
+    fwq = input(question("Would you like to configure firewall (UFW) (y,n)"))
 
     if fwq == 'n':
         return
@@ -60,16 +63,16 @@ def firewall_config():
 
         notdone = True
         while notdone:
-            portsq = input("Would you like to deny/allow ports? (y,n)")
+            portsq = input(question("Would you like to deny/allow ports? (y,n)"))
             if portsq.lower() == 'y':
-                port = input("What port would you like to allow? (type 'n' for none)")
+                port = input(question("What port would you like to allow? (type 'n' for none)"))
                 
                 if port.isnumeric():
                     os.system("sudo ufw allow " + port)
                     log("Allowed port: " + port)
                 elif port == "n":
                     # ask for deny
-                    port = input("What ports would you like to deny? (type 'n' for none)")
+                    port = input(question("What ports would you like to deny? (type 'n' for none)"))
                     if port.isnumeric():
                         os.system("sudo ufw deny " + port)
                         log("Blocked port: " + port)
@@ -102,7 +105,7 @@ def firewall_config():
 
         firewall_config()
         
-    sshq = input("Would you like to allow port 22 (Check readme!) (y,n)")
+    sshq = input(question("Would you like to allow port 22 (Check readme!) (y,n)"))
     if sshq == 'y':
         os.system("sudo ufw allow 22 && sudo ufw allow ssh")
         log("Opened SSH port")
@@ -118,7 +121,7 @@ def lightdm_config():
     # greeter-hide-users=true
     # greeter-show-manual-login=true
     # autologin-user=none <-- this broke our last comp image
-    ldmq = input("Would you like to configure lightdm? (y,n)")
+    ldmq = input(question("Would you like to configure lightdm? (y,n)"))
     
     if ldmq == 'n':
         return
@@ -140,7 +143,7 @@ def lightdm_config():
         return # don't know why I should have this here
 
 def updates():
-    updateq = input("Would you like to update/upgrade? (y,n)")
+    updateq = input(question("Would you like to update/upgrade? (y,n)"))
     if updateq == 'y':
         os.system("sudo apt update")
         log("Finished sudo apt update")
@@ -157,7 +160,7 @@ def updates():
 
 def remove_bad_apps():
     # Read from bad.txt line by line and plug in the program to sudo apt remove *prog*
-    rmbaq = input("Would you like to remove bad apps? (y,n)")
+    rmbaq = input(question("Would you like to remove bad apps? (y,n)"))
     
     if rmbaq == 'n':
         return
@@ -182,7 +185,7 @@ def password_securing():
         #     PASS_MIN_DAYS  10
         #     PASS_WARN_AGE  7
         
-    psq = input("Would you like to secure/configure password policies? (y,n)")
+    psq = input(question("Would you like to secure/configure password policies? (y,n)"))
     if psq == 'n':
         return
     elif psq != 'y':
