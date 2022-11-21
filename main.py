@@ -329,7 +329,12 @@ def networking_config():
         sysctl.close()
         os.system("sudo sysctl -p")
         log("Fixed up sysctl conf")
+
+def what_to_do_next():
+    log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
     
+    log(" - Check /etc/hosts to make sure that there are no malicous \"redirects\"")
+
 setup_questions()             
 updates()
 firewall_config()     
@@ -346,5 +351,7 @@ lightdm_config()
 remove_bad_apps()
 password_securing()
 networking_config()
+
+what_to_do_next()
 
 print(bordercolors.OKBLUE + "You are all done, happy patroling!" + bordercolors.ENDC)
