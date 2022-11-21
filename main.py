@@ -356,6 +356,7 @@ def networking_config():
 
 # This will be a questionare, which will ask for the list of users, excluding the admins,
 #  and will organize everything/everyone
+
 def users():
     uq = input(question("Would you like to configure the users? Keep in mind that this may not be stable (y,n)"))
     if uq == 'n':
@@ -365,9 +366,23 @@ def users():
         users()
         return
     
+    admins_file = open("./settings/admins.txt", 'r')
+    non_admins_file = open("./settings/non-admins.txt", 'r')
     
+    adminsdat = admins_file.read()
+    nonadminsdat = non_admins_file.read()
     
-    pass
+    admins = adminsdat.splitlines()
+    non_admins = nonadminsdat.splitlines()
+
+    # Debugging purposes
+    # print(admins)
+    # print(non_admins)
+     
+    admins_file.close()
+    non_admins_file.close()
+    
+    # Split the admins into a dictionary, with a "name : pasword" format
         
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
@@ -378,11 +393,13 @@ setup_questions()
 updates()
 firewall_config()     
 
+print(is_ssh)
+
 if is_ssh:
     config_ssh()
 else:
     disconfig_ssh()
-
+# Debugging purposes
 log("UFW Status: ")    
 os.system("sudo ufw status")
 
