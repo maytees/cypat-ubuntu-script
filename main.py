@@ -312,6 +312,10 @@ def disconfig_ssh():
     
     log("END OF DISCONFIG SSH")
 
+# Will most likely move firewall_config() into here, but for now I will sleep : )
+def networking_config():
+    pass
+    
 setup_questions()             
 updates()
 firewall_config()     
@@ -327,5 +331,6 @@ os.system("sudo ufw status")
 lightdm_config()
 remove_bad_apps()
 password_securing()
+networking_config()
 
 print(bordercolors.OKBLUE + "You are all done, happy patroling!" + bordercolors.ENDC)

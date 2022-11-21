@@ -14,6 +14,9 @@ This can be used for learning or makingy your own script.
 - [x] SSH config
     - [x] Allow/Deny port 22
     - [x] sshd_config file config
+- [ ] Mail server config
+    - [ ] Postfix
+    - [ ] Allow port(s) (25)
 - [x] UFW Config/setup
     - [x] Allow port 22 for SSH (if needed)
 - [x] Lightdm config
@@ -25,3 +28,8 @@ This can be used for learning or makingy your own script.
     - [ ] Change insecure passwords
 - [x] Remove bad applications
 - [ ] Remove media files (mp3, mp4, jpeg, etc) 
+- [ ] Anti virus scanner (clamav, rkhunter, chrootkit)
+- [ ] Firefox Config (not sure how this will be done, there most likely is a config file)
+- [ ] Grub config
+- [ ] Remove Samba access (connection between Win and Linux, Google for more info)
+- [ ] SYSCTL Config (/etc/sysctl.conf)
