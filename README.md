@@ -6,7 +6,12 @@ This script/project cannot be used for Cyberpatriot teams other than Cybarra.
 
 This can be used for learning or makingy your own script.
 
+# What is currently broken? These things - 
+- Users (WIP)
+- Passwords (there will be something which asks you, and tells you if its dangerous)
+
 ### Status (more to come as this script progresses) -
+
 - [x] Updates
     - [x] Dist
     - [x] Normal
