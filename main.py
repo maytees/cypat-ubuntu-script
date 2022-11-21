@@ -198,7 +198,7 @@ def password_securing():
     
     os.system("sudo apt install libpam-cracklib")    
     log("Installed libpam-cracklib")
-
+    
     # Does password policies - not sure if I should be doing this this way
     with open('./preset_files/login.defs', 'r') as preset, open('/etc/login.defs', 'w') as logindefs:
         for line in preset:
@@ -207,6 +207,16 @@ def password_securing():
         logindefs.close()
     log("Wrote preset ./preset_files/login.defs to /etc/login.defs!")
     
+    commonq = input(question("Would you like to configure common-auth and common-password? (y,n) (this is not reccomended if pam installation asked you to reset config)"))
+    
+    if commonq == 'n':
+        return
+    elif commonq != 'y':
+        err("Please input a valid option!")
+    
+    common_config()
+    
+def common_config():
     with open('./preset_files/common-auth', 'r') as preset, open('/etc/pam.d/common-auth', 'w') as common_auth:
         for line in preset:
             common_auth.write(line)

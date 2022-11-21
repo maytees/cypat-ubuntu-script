@@ -21,4 +21,4 @@ This can be used for learning or makingy your own script.
     - [x] chmod 640 /etc/shadow
     - [ ] Change insecure passwords
 - [x] Remove bad applications
-
+- [ ] Remove media files (mp3, mp4, jpeg, etc) 
