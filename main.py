@@ -372,18 +372,22 @@ def users():
     adminsdat = admins_file.read()
     nonadminsdat = non_admins_file.read()
     
-    admins = adminsdat.splitlines()
+    adminswpass = adminsdat.splitlines()
     non_admins = nonadminsdat.splitlines()
 
     # Debugging purposes
-    # print(admins)
+    # print(adminswpass)
     # print(non_admins)
      
     admins_file.close()
     non_admins_file.close()
     
-    # Split the admins into a dictionary, with a "name : pasword" format
-        
+    # Split the admins into a dictionary, with a "name : pasword" format 
+    admins = {}    
+    for admin in adminswpass:
+        split = admin.split()
+        admins[split[0]] = split[1] 
+    
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
     
