@@ -40,6 +40,9 @@ is_mail = False
 
 def setup_questions():
     log("These are some setup questions: ")
+    
+    global is_ssh
+    global is_mail
 
     setupqssh = input(question(" - Is this an SSH server? Should this machine have SSH enabled? (y,n)"))
     if setupqssh == 'y':
