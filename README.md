@@ -14,7 +14,6 @@ This can be used for learning or makingy your own script.
 - [x] UFW Config/setup
     - [x] Allow port 22 for SSH (if needed)
 - [x] Lightdm config
-    - [ ] Write to file, rather than append
 - [ ] User remove/add
 - [ ] Group remove/add
 - [ ] Passwords
