@@ -41,7 +41,7 @@ IS_MAIL = False
 def setup_questions():
     log("These are some setup questions: ")
 
-    setupqssh = input(question("\tIs this an SSH server? Should this machine have SSH enabled?"))
+    setupqssh = input(question(" - Is this an SSH server? Should this machine have SSH enabled?"))
     if setupqssh == 'y':
         IS_SSH = True
     elif setupqssh == 'n':
@@ -51,7 +51,7 @@ def setup_questions():
         setup_questions()
         return
 
-    setupqmail = input(question("\tIs this a mail server?"))
+    setupqmail = input(question(" - Is this a mail server?"))
     if setupqmail == 'y':
         IS_MAIL = True
     elif setupqmail == 'n':
