@@ -231,6 +231,8 @@ def password_securing():
     
     common_config()
     
+    warn("Please open a new terminal tab and check if `sudo echo hi` has worked, if not, then run: sudo apt remove libpam-cracklib")
+    
 
          
 updates()
