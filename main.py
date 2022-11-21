@@ -133,7 +133,7 @@ def lightdm_config():
     path = "/usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf"
     if exists(path):
         settings = "\nallow-guest=false\ngreeter-hide-users=true\ngreeter-show-manual-login=true\nautologin-user=none"
-        log("Adding settings:", settings, "to", path)
+        log(("Adding settings:", settings, "to", path))
         
         lightdmconf = open(path, "a")
         lightdmconf.write(settings)
