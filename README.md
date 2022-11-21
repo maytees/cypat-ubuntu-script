@@ -21,7 +21,9 @@ This can be used for learning or makingy your own script.
     - [x] Allow port 22 for SSH (if needed)
 - [x] Lightdm config
 - [ ] User remove/add
+    - [Stack Overflow]("https://stackoverflow.com/questions/2540460/how-to-check-if-a-user-exists-in-a-gnu-linux-os-using-python")
 - [ ] Group remove/add
+    - [Stack Overflow]("https://stackoverflow.com/questions/2540460/how-to-check-if-a-user-exists-in-a-gnu-linux-os-using-python")
 - [ ] Passwords
     - [x] Password rules - in /etc/login.defs
     - [x] chmod 640 /etc/shadow

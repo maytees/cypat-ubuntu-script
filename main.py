@@ -386,7 +386,7 @@ def users():
     admins = {}    
     for admin in adminswpass:
         split = admin.split()
-        admins[split[0]] = split[1] 
+        admins[split[0]] = split[1]   
     
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
