@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import pwd
 from os.path import exists
 
 class bordercolors:
@@ -62,6 +63,20 @@ print("\n")
 is_ssh = False
 is_mail = False
 
+def user_exists(username):
+    try:
+        pwd.getpwnam(username) 
+    except KeyError:
+        return False
+    
+    return True 
+
+# Helper
+def is_admin(user, admins):
+    if user in admins:
+        return True
+    return False
+    
 def setup_questions():
     log("These are some setup questions: ")
     
@@ -384,10 +399,29 @@ def users():
     
     # Split the admins into a dictionary, with a "name : pasword" format 
     admins = {}    
+    users = []
     for admin in adminswpass:
         split = admin.split()
         admins[split[0]] = split[1]   
     
+    # Add users to users list
+    for non_admin in non_admins:
+        users.append(non_admin)
+    
+    for adminusername in admins.keys():
+        users.append(adminusername)
+
+    # Loop through the users and check if they exists
+    for user in users:
+        if user_exists(user):
+            # Check some other stuff, like,
+            #  if they are supposed to be admin or not, etc
+            pass
+        else:
+            # Remove the user, because they are not suppsoed
+            #  to be there
+            pass
+                                     
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
     
