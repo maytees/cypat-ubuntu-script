@@ -292,7 +292,8 @@ def disconfig_ssh():
     
     os.system("sudo apt remove openssh-server ssh")
     log("Removed SSH packages")
-             
+
+setup_questions()             
 updates()
 firewall_config()     
 
