@@ -23,7 +23,7 @@ def log(msg):
     print(bordercolors.OKCYAN + msg + bordercolors.ENDC)
 
 def question(q):
-    return bordercolors.OKGREEN + q + bordercolors.ENDC
+    return bordercolors.OKGREEN + q + bordercolors.ENDC + '\n'
     
 # Checks if script was run with root permissions -
 # Not inspired by stack overflow, not at all
