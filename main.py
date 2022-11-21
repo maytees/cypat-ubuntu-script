@@ -220,3 +220,5 @@ firewall_config()
 lightdm_config()
 remove_bad_apps()
 password_securing()
+
+print(bordercolors.OKBLUE + "You are all done, happy patroling!" + bordercolors.ENDC)
