@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 from os.path import exists
 
 class bordercolors:
@@ -35,15 +36,28 @@ if not isroot:
 
 warn("Please make sure that you read the readme before running this!")
 
-print(bordercolors.OKBLUE + "\n\n Welcome to this very cool script, which will help you.." + bordercolors.ENDC)
-print(bordercolors.HEADER + "There are a few things you must do before running this. \n" + bordercolors.ENDC)
+print(bordercolors.OKBLUE + "\nWelcome to this very cool script, which will help you.." + bordercolors.ENDC)
+print(bordercolors.HEADER + "There are a few things you must do before running this." + bordercolors.ENDC)
 
 print(bordercolors.OKCYAN)
 print(" - 1st of all, I would like you to paste in the non admin users in the ./settings/non-admins.txt file in the source root")
 print("    - Refer to the ./examples/non-admins-example.txt for a reference on formatting")
 print(" - 2nd of all, I would like you to paste in the administrator users in the ./settings/admins.txt, please separate the passwords with a space")
 print("    - Refer to the ./examples/admins-example.txt for a reference on formatting")
-print(bordercolors.ENDC) #ends cyan color
+print(bordercolors.ENDC) #ends cyan color 
+
+err("Please go make changes before you continue.")
+
+ready = input(question("Are you ready to move on? (y,n) "))
+if ready == 'n':
+    sys.exit(bordercolors.FAIL + "Bye." + bordercolors.ENDC)
+elif ready != 'y':
+    sys.exit(bordercolors.FAIL + "Exiting beacuse you canot input y or n.")
+
+log("Ok, we are ready to move on :)\n")
+
+print(bordercolors.WARNING + "--------------------------------------" + bordercolors.ENDC)
+print("\n")
 
 is_ssh = False
 is_mail = False
