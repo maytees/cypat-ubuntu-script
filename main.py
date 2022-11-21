@@ -39,10 +39,10 @@ print(bordercolors.OKBLUE + "\n\n Welcome to this very cool script, which will h
 print(bordercolors.HEADER + "There are a few things you must do before running this. \n" + bordercolors.ENDC)
 
 print(bordercolors.OKCYAN)
-print(" - 1st of all, I would like you to paste in the non admin users in the non-admins.txt file in the source root")
-print("    - Refer to the non-admins-example.txt for a reference on formatting")
-print(" - 2nd of all, I would like you to paste in the administrator users in the admins.txt, please separate the passwords with a space")
-print("    - Refer to the admins-example.txt for a reference on formatting")
+print(" - 1st of all, I would like you to paste in the non admin users in the ./settings/non-admins.txt file in the source root")
+print("    - Refer to the ./examples/non-admins-example.txt for a reference on formatting")
+print(" - 2nd of all, I would like you to paste in the administrator users in the ./settings/admins.txt, please separate the passwords with a space")
+print("    - Refer to the ./examples/admins-example.txt for a reference on formatting")
 print(bordercolors.ENDC) #ends cyan color
 
 is_ssh = False
@@ -223,7 +223,7 @@ def remove_bad_apps():
         remove_bad_apps()
         return
     
-    badfile = open('bad.txt', 'r')  
+    badfile = open('./settings/bad.txt', 'r')  
     progs = badfile.readlines()
     
     for prog in progs:
