@@ -361,7 +361,7 @@ def networking_config():
         networking_config()
         return
 
-    with open('./preset/sysctl.conf', 'r') as preset, open('/etc/sysctl.conf', 'w') as sysctl:
+    with open('./preset_files/sysctl.conf', 'r') as preset, open('/etc/sysctl.conf', 'w') as sysctl:
         for line in preset:
             sysctl.write(line)
         preset.close()
