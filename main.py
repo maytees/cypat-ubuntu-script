@@ -542,6 +542,21 @@ def users():
         warn("Really gotta do this whole users thing again..")
         return
 
+def audit_config():
+    q = input(question("Would you like me (the script) to config auditing? (y,n)"))
+    if q == 'n':
+        err("Bye.")
+        return
+    elif q != 'y':
+        err("Ok lets try this again.")
+        audit_config()
+        return
+
+    log("Configuring audit(s?).")
+
+    os.system("sudo apt install auditd && auditctl -e 1")
+    log("Enabled audit")
+
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
     
@@ -563,6 +578,7 @@ remove_bad_apps()
 password_securing()
 networking_config()
 users()
+audit_config()
 
 what_to_do_next()
 
