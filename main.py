@@ -413,6 +413,7 @@ def autouser_config():
             #  if they are supposed to be admin or not, etc 
             if user in admins:
                 if user in sys_admins:
+                    print(user, "is ok!")
                     # log(user + " is okay! Passing.")
                     pass
                 else:
@@ -421,8 +422,9 @@ def autouser_config():
             else:
                 if user in sys_admins:
                     os.system("sudo gpasswd -d " + user + " sudo")
-                    warn("Removed" + user + " from sudo group (admins), b/c they are not supposed to be there!")
+                    warn("Removed " + user + " from sudo group (admins), b/c they are not supposed to be there!")
                 else:
+                    print(user, "is ok!")
                     # log(user + " is okay! Passing.")
                     pass
         else:
