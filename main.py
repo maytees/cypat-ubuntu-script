@@ -416,7 +416,7 @@ def users():
     for adminusername in admins.keys():
         users.append(adminusername)
     
-    sys_admins = sup.getoutput("members sudo")    
+    sys_admins = subprocess.getoutput("members sudo")    
     log("The currect admins on this image are:", sys_admins)
 
     # Loop through the users and check if they exists
