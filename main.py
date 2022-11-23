@@ -427,14 +427,14 @@ def users():
 
             if user in admins:
                 if user in sys_admins:
-                    print(user, "is rightfully an admin")
+                    print(user, "is ok")
                 else:
-                    print(user, "is supposed to be an admin but is not.")
+                    print(user, "is not ok, because they are supposed to be an admin")
             else:
                 if user in sys_admins:
-                    print(user, "is not supposed to be an admin on the system!")
+                    print(user, "is not ok, because they are not supposed to be an admin")
                 else:
-                    print(user, "This user is rightfully *NOT* an admin on the system")
+                    print(user, "is ok")
         else:
             # Remove the user, because they are not suppsoed
             #  to be there
