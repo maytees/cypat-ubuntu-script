@@ -373,49 +373,36 @@ def networking_config():
 # This will be a questionare, which will ask for the list of users, excluding the admins,
 #  and will organize everything/everyone
 
-def users():
-    uq = input(question("Would you like to configure the users? Keep in mind that this may not be stable (y,n)"))
-    if uq == 'n':
-        return
-    elif uq != 'y':
-        err("Lets try this again, since you cannot input y or n")
-        users()
-        return
+def autouser_config():
     
-    log("Installing packages - members")
-    os.system("sudo apt install members")    
-    log("Installed package - members")
+    log("Starting automatic labor")
 
     admins_file = open("./settings/admins.txt", 'r')
     non_admins_file = open("./settings/non-admins.txt", 'r')
-    
+
     adminsdat = admins_file.read()
     nonadminsdat = non_admins_file.read()
-    
+
     adminswpass = adminsdat.splitlines()
     non_admins = nonadminsdat.splitlines()
 
-    # Debugging purposes
-    # print(adminswpass)
-    # print(non_admins)
-     
     admins_file.close()
     non_admins_file.close()
-    
+
     # Split the admins into a dictionary, with a "name : pasword" format 
     admins = {}    
     users = []
     for admin in adminswpass:
         split = admin.split()
         admins[split[0]] = split[1]   
-    
-    # Add users to users list
+
+        # Add users to users list
     for non_admin in non_admins:
         users.append(non_admin)
-    
+
     for adminusername in admins.keys():
         users.append(adminusername)
-    
+
     sys_admins = subprocess.getoutput("members sudo")    
     log("The currect admins on this image are: " +  sys_admins)
 
@@ -438,9 +425,51 @@ def users():
                     log(user + " is okay! Passing.")
         else:
             # Create the new user
+            #   - check if they are supposed to be an admin
             os.system("sudo useradd -m " + user)
             warn("Created user -  " + user + " beacuse they are supposed to be a user, though they weren't :(")
-                                     
+
+            if user in admins:
+                # Add user to sudo group
+                os.system("sudo usermod -a -G sudo " + user)
+                log("Added new user (" + user + ") to sudo (admins) group, b/c they are supposed to be there")
+                log("Please go change this person's password to - " + admins[user])
+
+def manualuser_config():
+    # Ask inputer if they want to add/remove user, the same way as the port thing
+    pass
+
+def users():
+    uq = input(question("Would you like to configure the users? (y,n)"))
+    if uq == 'n':
+        return
+    elif uq != 'y':
+        err("Lets try this again, since you cannot input y or n")
+        users()
+        return
+
+    log("Installing packages - members")
+    os.system("sudo apt install members")
+    log("Installed package - members")
+
+    autolabor = input(question("Would you like this script to do some automatic user handling?"))
+    if autolabor == 'n':
+        log("Ok, more work for you..")
+    elif autolabor == 'y':
+        autouser_config()
+    else:
+        warn("Really gonna make yourself redo this whole users thing...")
+        return
+
+    manuallabor = input(question("Would you like to add/remove any more users by yourself?"))
+    if manuallabor == 'n':
+        log("Ok, less work for you..")
+    elif manuallabor == 'y':
+        manualuser_config()
+    else:
+        warn("Really gotta do this whole users thing again..")
+        return
+
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
     
