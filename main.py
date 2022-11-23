@@ -417,7 +417,7 @@ def users():
         users.append(adminusername)
     
     sys_admins = subprocess.getoutput("members sudo")    
-    log("The currect admins on this image are:", sys_admins)
+    log("The currect admins on this image are: " +  sys_admins)
 
     # Loop through the users and check if they exists
     for user in users:
