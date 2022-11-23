@@ -41,3 +41,4 @@ This can be used for learning or makingy your own script.
 - [ ] Remove Samba access (connection between Win and Linux, Google for more info)
   - `sudo apt-get remove --purge samba`
 - [x] SYSCTL Config (/etc/sysctl.conf)
+- [x] Audit config
