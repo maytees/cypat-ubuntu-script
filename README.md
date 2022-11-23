@@ -24,9 +24,10 @@ This can be used for learning or makingy your own script.
     - [ ] Allow port(s) (25)
 - [x] UFW Config/setup
 - [x] Lightdm config
-- [ ] User remove/add
+- [x] User remove/add
     - [Stack Overflow]("https://stackoverflow.com/questions/2540460/how-to-check-if-a-user-exists-in-a-gnu-linux-os-using-python")
 - [ ] Group remove/add
+    - [x] Add users who are supposed to have admin to sudo group
     - [Stack Overflow]("https://stackoverflow.com/questions/2540460/how-to-check-if-a-user-exists-in-a-gnu-linux-os-using-python")
 - [ ] Passwords
     - [x] Password rules - in /etc/login.defs
