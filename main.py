@@ -477,6 +477,9 @@ def autouser_config():
                 log("Added new user (" + user + ") to sudo (admins) group, b/c they are supposed to be there")
                 log("Please go change this person's password to - " + admins[user])
 
+        for user in pwd.getpwall():
+            print(user)
+            
     print(bordercolors.ENDC)
     
 def manualuser_config():
