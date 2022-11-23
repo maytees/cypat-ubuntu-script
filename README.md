@@ -38,7 +38,7 @@ This can be used for learning or makingy your own script.
 - [ ] Anti virus scanner (clamav, rkhunter, chrootkit)
 - [ ] Firefox Config (not sure how this will be done, there most likely is a config file)
 - [ ] Grub config
-- [ ] Remove Samba access (connection between Win and Linux, Google for more info)
+- [x] Remove Samba access (connection between Win and Linux, Google for more info)
   - `sudo apt-get remove --purge samba`
 - [x] SYSCTL Config (/etc/sysctl.conf)
 - [x] Audit config

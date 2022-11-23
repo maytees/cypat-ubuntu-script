@@ -557,6 +557,25 @@ def audit_config():
     os.system("sudo apt install auditd && auditctl -e 1")
     log("Enabled audit")
 
+def rem_samba():
+    q = input(question("Would you like to remove SAMBA stuff? (comm with Windows)"))
+    if q == 'n':
+        err("Ok, bye.")
+        return
+    elif q != 'y':
+        err("Why dont you try listening?")
+        rem_samba()
+        return
+
+    log("Removing samba")
+
+    os.system("sudo apt remove samba samba-common samba-common-bin && sudo apt purge samba")
+    log("Removed samba packages and directories")
+
+    os.system("sudo rm -rf /var/lib/samba/printers/x64")
+    os.system("sudo rm -rf /var/lib/samba/printers/W32X86")
+    log("Removed samba directories")
+
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
     
