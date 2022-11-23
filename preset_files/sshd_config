@@ -28,14 +28,14 @@ Port 22
 
 # Logging
 #SyslogFacility AUTH
-#LogLevel INFO
+LogLevel VERBOSE
 
 # Authentication:
 
 LoginGraceTime 60
 PermitRootLogin no
 #StrictModes yes
-MaxAuthTries 3
+MaxAuthTries 4
 #MaxSessions 10
 
 #PubkeyAuthentication yes
@@ -49,12 +49,12 @@ MaxAuthTries 3
 #AuthorizedKeysCommandUser nobody
 
 # For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
-#HostbasedAuthentication no
+HostbasedAuthentication no
 # Change to yes if you don't trust ~/.ssh/known_hosts for
 # HostbasedAuthentication
 #IgnoreUserKnownHosts no
 # Don't read the user's ~/.rhosts and ~/.shosts files
-#IgnoreRhosts yes
+IgnoreRhosts yes
 
 # To disable tunneled clear text passwords, change to no here!
 PasswordAuthentication yes

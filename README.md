@@ -6,10 +6,6 @@ This script/project cannot be used for Cyberpatriot teams other than Cybarra.
 
 This can be used for learning or makingy your own script.
 
-# What is currently broken? These things - 
-- Users (WIP)
-- Passwords (there will be something which asks you, and tells you if its dangerous)
-
 ### Status (more to come as this script progresses) -
 
 - [x] Updates
@@ -29,10 +25,9 @@ This can be used for learning or makingy your own script.
 - [ ] Group remove/add
     - [x] Add users who are supposed to have admin to sudo group
     - [Stack Overflow]("https://stackoverflow.com/questions/2540460/how-to-check-if-a-user-exists-in-a-gnu-linux-os-using-python")
-- [ ] Passwords
+- [x] Passwords
     - [x] Password rules - in /etc/login.defs
     - [x] chmod 640 /etc/shadow
-    - [ ] Change insecure passwords
 - [x] Remove bad applications
 - [x] Remove media files (mp3, mp4, jpeg, etc) 
 - [ ] Anti virus scanner (clamav, rkhunter, chrootkit)

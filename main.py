@@ -364,7 +364,10 @@ def config_ssh():
             sshdconfig.write(line)
         preset.close()
         sshdconfig.close()
-        
+
+    os.system("sudo service sshd reload")
+    log("Reloaded sshd service")
+
     log("END OF CONFIG SSH")
 
 # Removes ssh packages and closes ports
@@ -593,6 +596,32 @@ def periodic_updates():
         autoupgrades.close()
         
         log("Wrote preset - preset_files/20auto-upgrades to /etc/apt/apt.conf.d/20auto-upgrades")
+
+def apparmor_config():
+    q = input(question("Would you like to configure apparmor? (y,n)"))
+    if q == 'n':
+        err("Ok bye.")
+        return
+    elif q != 'y':
+        err("Do something right")
+        apparmor_config()
+        return
+    
+    os.system("sudo apt install apparmor")
+    os.system("apt install apparmor-utils")
+
+    log("Apparmor should be installed?")
+
+    os.system("aa-enforce /etc/aparmor.d/usr.bin.*")
+    os.system("awk '/GRUB_CMDLINE_LINUX/ {print;print "GRUB_CMDLINE_LINUX="apparmor=1 security=apparmor"";next}1' /etc/default/grub > app_armor_conf")
+    os.system("cp app_armor_conf /etc/default/grub")
+    os.system("rm app_armor_conf")
+
+    os.system("update-grub")
+
+    os.system("aa-enforce /etc/apparmor.d/usr.bin.*")
+
+    log("Enforced apparmor grub config")
     
 def scan_media_files():
     q = input(question("Would you like to remove media files? (y,n)"))
