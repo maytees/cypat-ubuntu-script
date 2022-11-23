@@ -277,12 +277,12 @@ def remove_bad_apps():
     log("END OF REMOVE BAD APPS")
 
 def common_config():
-    with open('./preset_files/common-auth', 'r') as preset, open('/etc/pam.d/common-auth', 'w') as common_auth:
-        for line in preset:
-            common_auth.write(line)
-        preset.close()
-        common_auth.close()        
-    log("Wrote preset ./preset_files/common-auth to /etc/pam.d/common-auth")
+    # with open('./preset_files/common-auth', 'r') as preset, open('/etc/pam.d/common-auth', 'w') as common_auth:
+    #     for line in preset:
+    #         common_auth.write(line)
+    #     preset.close()
+    #     common_auth.close()
+    # log("Wrote preset ./preset_files/common-auth to /etc/pam.d/common-auth")
     
     with open('./preset_files/common-password', 'r') as preset, open('/etc/pam.d/common-password', 'w') as common_password:
         for line in preset:
@@ -315,6 +315,10 @@ def password_securing():
     os.system("sudo apt install libpam-cracklib")    
     log("Installed libpam-cracklib")
     
+    log("Lock root account - ")
+    os.system("sudo passwd -l root")
+
+
     # Does password policies - not sure if I should be doing this this way
     with open('./preset_files/login.defs', 'r') as preset, open('/etc/login.defs', 'w') as logindefs:
         for line in preset:
