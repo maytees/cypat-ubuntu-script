@@ -613,7 +613,7 @@ def apparmor_config():
     log("Apparmor should be installed?")
 
     os.system("aa-enforce /etc/aparmor.d/usr.bin.*")
-    os.system("awk '/GRUB_CMDLINE_LINUX/ {print;print "GRUB_CMDLINE_LINUX="apparmor=1 security=apparmor"";next}1' /etc/default/grub > app_armor_conf")
+    os.system("awk '/GRUB_CMDLINE_LINUX/ {print;print \"GRUB_CMDLINE_LINUX=\"apparmor=1 security=apparmor\"\";next}1' /etc/default/grub > app_armor_conf")
     os.system("cp app_armor_conf /etc/default/grub")
     os.system("rm app_armor_conf")
 
