@@ -64,6 +64,19 @@ print("\n")
 is_ssh = False
 is_mail = False
 
+def ask_ufw_stat():
+    q = input(question("Would you like to see UFW status? (Just to make sure nothing is wrong)"))
+    if q == 'n':
+        warn("Ok.")
+        return
+    elif q != 'y':
+        err("Let's just default to no..")
+        return
+
+    # Debugging purposes
+    log("UFW Status: ")
+    os.system("sudo ufw status")
+
 def user_exists(username):
     try:
         pwd.getpwnam(username) 
@@ -326,6 +339,14 @@ def password_securing():
 # Allows ssh ports, install openssh-server and ssh packages,
 #   configures /etc/ssh/sshd_config
 def config_ssh():
+    q = input(question("Would you like to do reccomended modifications for SSH? (not-dis) (y,n)"))
+    if q == 'n':
+        return
+    elif q != 'y':
+        err("Let's try this again.")
+        config_ssh()
+        return
+
     os.system("sudo apt install openssh-server ssh")
     log("Installing openssh-server and ssh packages")
 
@@ -344,6 +365,14 @@ def config_ssh():
 
 # Removes ssh packages and closes ports
 def disconfig_ssh():
+    q = input(question("Would you like to do reccomended modifications for SSH? (dis) (y,n)"))
+    if q == 'n':
+        return
+    elif q != 'y':
+        err("Let's try this again.")
+        disconfig_ssh()
+        return
+
     os.system("sudo apt remove openssh-server ssh")
     log("Removed SSH packages")
 
@@ -474,6 +503,7 @@ def users():
         warn("Really gotta do this whole users thing again..")
         return
 
+
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
     
@@ -489,9 +519,8 @@ if is_ssh:
     config_ssh()
 else:
     disconfig_ssh()
-# Debugging purposes
-log("UFW Status: ")    
-os.system("sudo ufw status")
+
+ask_ufw_stat()
 
 lightdm_config()
 remove_bad_apps()
