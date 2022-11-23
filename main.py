@@ -456,7 +456,7 @@ def users():
     os.system("sudo apt install members")
     log("Installed package - members")
 
-    autolabor = input(question("Would you like this script to do some automatic user handling?"))
+    autolabor = input(question("Would you like this script to do some automatic user handling? (y,n)"))
     if autolabor == 'n':
         log("Ok, more work for you..")
     elif autolabor == 'y':
@@ -465,7 +465,7 @@ def users():
         warn("Really gonna make yourself redo this whole users thing...")
         return
 
-    manuallabor = input(question("Would you like to add/remove any more users by yourself?"))
+    manuallabor = input(question("Would you like to add/remove any more users by yourself? (y,n)"))
     if manuallabor == 'n':
         log("Ok, less work for you..")
     elif manuallabor == 'y':
