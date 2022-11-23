@@ -495,16 +495,16 @@ def autouser_config():
                 os.system("sudo usermod -a -G sudo " + user)
                 log("Added new user (" + user + ") to sudo (admins) group, b/c they are supposed to be there")
                 log("Please go change this person's password to - " + admins[user])
+        
+         
+    for person in read_and_parse("/etc/passwd"):
+        userid = pwd.getpwnam(person).pw_uid
+        if userid >= 1000 and person not in users:
+            # User exists when they are not supposed to. Remove them.
+            os.system("sudo userdel -rf " + person)
+            warn("Removed user: " + person) 
+    print(bordercolors.ENDC)    
 
-        for person in read_and_parse("/etc/passwd"):
-            userid = pwd.getpwnam(person).pw_uid
-            if userid >= 1000 and person not in users:
-                # User exists when they are not supposed to. Remove them.
-                os.system("sudo userdel -rf " + person)
-                warn("Removed user: " + person)
-            
-    print(bordercolors.ENDC)
-    
 def manualuser_config():
     # Ask inputer if they want to add/remove user, the same way as the port thing
     rem = input(question("Would you like to remove any users? (y,n)"))
