@@ -435,6 +435,8 @@ def autouser_config():
     sys_admins = subprocess.getoutput("members sudo")    
     log("The currect admins on this image are: " +  sys_admins)
 
+    print(bordercolors.HEADER)
+
     # Loop through the users and check if they exists
     for user in users:
         if user_exists(user):
@@ -447,11 +449,11 @@ def autouser_config():
                     pass
                 else:
                     os.system("sudo usermod -a -G sudo " + user)
-                    warn("Added " + user + " to sudo group (admins)")
+                    print("Added " + user + " to sudo group (admins)")
             else:
                 if user in sys_admins:
                     os.system("sudo gpasswd -d " + user + " sudo")
-                    warn("Removed " + user + " from sudo group (admins), b/c they are not supposed to be there!")
+                    print("Removed " + user + " from sudo group (admins), b/c they are not supposed to be there!")
                 else:
                     print(user, "is ok!")
                     # log(user + " is okay! Passing.")
@@ -460,7 +462,7 @@ def autouser_config():
             # Create the new user
             #   - check if they are supposed to be an admin
             os.system("sudo useradd -m " + user)
-            warn("Created user -  " + user + " beacuse they are supposed to be a user, though they weren't :(")
+            print("Created user -  " + user + " beacuse they are supposed to be a user, though they weren't :(")
 
             if user in admins:
                 # Add user to sudo group
@@ -468,6 +470,8 @@ def autouser_config():
                 log("Added new user (" + user + ") to sudo (admins) group, b/c they are supposed to be there")
                 log("Please go change this person's password to - " + admins[user])
 
+    print(bordercolors.ENDC)
+    
 def manualuser_config():
     # Ask inputer if they want to add/remove user, the same way as the port thing
     rem = input(question("Would you like to remove any users? (y,n)"))
@@ -533,7 +537,6 @@ def users():
     else:
         warn("Really gotta do this whole users thing again..")
         return
-
 
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
