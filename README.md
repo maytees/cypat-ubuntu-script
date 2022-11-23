@@ -37,3 +37,4 @@ This can be used for learning or makingy your own script.
   - `sudo apt-get remove --purge samba`
 - [x] SYSCTL Config (/etc/sysctl.conf)
 - [x] Audit config
+- [x] Apparmor
