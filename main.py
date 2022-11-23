@@ -470,7 +470,38 @@ def autouser_config():
 
 def manualuser_config():
     # Ask inputer if they want to add/remove user, the same way as the port thing
-    pass
+    rem = input(question("Would you like to remove any users? (y,n)"))
+    if rem == 'y':
+        notdone = True
+        while notdone:
+            user = input(question("What user would you like to remove? (n for none)"))
+            if user == 'n':
+                warn("Ok, exiting")
+                break
+
+            os.system("sudo userdel -r " + user)
+            log("removed user: " + user)
+    elif rem == 'n':
+        create = input(question("Would you like to add any users? (y,n)"))
+        if create == 'y':
+            notdone = True
+            while notdone:
+                user = input(question("What user would you like to create? (n for none)"))
+                if user == 'n':
+                    warn("Ok, exiting")
+                    break
+
+                os.system("sudo useradd -m " + user)
+                log("Created new user: " + user)
+        elif create == 'n':
+            err("Nothing. Okay.")
+            return
+        else:
+            err("Lets try this agian.")
+    else:
+        err("Lets try this again.")
+        manualuser_config()
+        return
 
 def users():
     uq = input(question("Would you like to configure the users? (y,n)"))
@@ -512,7 +543,6 @@ def what_to_do_next():
 setup_questions()             
 updates()
 firewall_config()     
-
 
 if is_ssh:
     config_ssh()
