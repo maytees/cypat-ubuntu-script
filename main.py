@@ -277,12 +277,12 @@ def remove_bad_apps():
     log("END OF REMOVE BAD APPS")
 
 def common_config():
-    # with open('./preset_files/common-auth', 'r') as preset, open('/etc/pam.d/common-auth', 'w') as common_auth:
-    #     for line in preset:
-    #         common_auth.write(line)
-    #     preset.close()
-    #     common_auth.close()
-    # log("Wrote preset ./preset_files/common-auth to /etc/pam.d/common-auth")
+    with open('./preset_files/common-auth', 'r') as preset, open('/etc/pam.d/common-auth', 'w') as common_auth:
+        for line in preset:
+            common_auth.write(line)
+        preset.close()
+        common_auth.close()
+    log("Wrote preset ./preset_files/common-auth to /etc/pam.d/common-auth")
     
     with open('./preset_files/common-password', 'r') as preset, open('/etc/pam.d/common-password', 'w') as common_password:
         for line in preset:
@@ -602,6 +602,7 @@ def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
     
     log(" - Check /etc/hosts to make sure that there are no malicous \"redirects\"")
+    log(" - Check /etc/passwd for users whose uid is 0 (only root is supposed to have uid of zero)")
 
 setup_questions()             
 updates()
@@ -621,6 +622,9 @@ networking_config()
 users()
 audit_config()
 remove_media_files()
+
+log("Setting home directory perms")
+os.system("for i in $(mawk -F: '$3 > 999 && $3 < 65534 {print $1}' /etc/passwd); do [ -d /home/${i} ] && chmod -R 750 /home/${i}; done")
 
 what_to_do_next()
 
