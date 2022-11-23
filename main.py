@@ -594,27 +594,23 @@ def periodic_updates():
         
         log("Wrote preset - preset_files/20auto-upgrades to /etc/apt/apt.conf.d/20auto-upgrades")
     
-def remove_media_files():
+def scan_media_files():
     q = input(question("Would you like to remove media files? (y,n)"))
     if q == 'n':
         err("Ok, bye.")
         return
     elif q != 'y':
         err("Listen!N!NN!N!N")
-        remove_media_files()
+        scan_media_files()
         return
 
     log("Removing media files.")
 
+    log("Please remove the following mp3 files -")
     mp3files = subprocess.getoutput("sudo find / -xdev -type f -name \"*.mp3\"")
-    for file in mp3files:
-        os.system("sudo rm -rf " + file)
-        log("Removed MP3 file - " + file)
 
+    log("Please remove the following mp4 files -")
     mp4files = subprocess.getoutput("sudo find / -xdev -type f -name \"*.mp4\"")
-    for file in mp4files:
-        os.system("sudo rm -rf " + file)
-        log("Removed MP4 file - " + file)
 
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
@@ -639,7 +635,7 @@ password_securing()
 networking_config()
 users()
 audit_config()
-remove_media_files()
+scan_media_files()
 periodic_updates()
 
 log("Setting home directory perms")
