@@ -1,3 +1,0 @@
-joe  pas
-notjoe  pass
-felix  password

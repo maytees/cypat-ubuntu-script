@@ -2,6 +2,7 @@ import os
 import sys
 import time
 import pwd
+import subprocess
 from os.path import exists
 
 class bordercolors:
@@ -381,6 +382,10 @@ def users():
         users()
         return
     
+    log("Installing packages - members")
+    os.system("sudo apt install members")    
+    log("Installed package - members")
+
     admins_file = open("./settings/admins.txt", 'r')
     non_admins_file = open("./settings/non-admins.txt", 'r')
     
@@ -410,13 +415,26 @@ def users():
     
     for adminusername in admins.keys():
         users.append(adminusername)
+    
+    sys_admins = sup.getoutput("members sudo")    
+    log("The currect admins on this image are:", sys_admins)
 
     # Loop through the users and check if they exists
     for user in users:
         if user_exists(user):
             # Check some other stuff, like,
-            #  if they are supposed to be admin or not, etc
-            pass
+            #  if they are supposed to be admin or not, etc 
+
+            if user in admins:
+                if user in sys_admins:
+                    print(user, "is rightfully an admin")
+                else:
+                    print(user, "is supposed to be an admin but is not.")
+            else:
+                if user in sys_admins:
+                    print(user, "is not supposed to be an admin on the system!")
+                else:
+                    print(user, "This user is rightfully *NOT* an admin on the system")
         else:
             # Remove the user, because they are not suppsoed
             #  to be there
