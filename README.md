@@ -30,7 +30,7 @@ This can be used for learning or makingy your own script.
     - [x] chmod 640 /etc/shadow
 - [x] Remove bad applications
 - [x] Remove media files (mp3, mp4, jpeg, etc) 
-- [ ] Anti virus scanner (clamav, rkhunter, chrootkit)
+- [ ] Anti virus scanner (clamav, rkhunter, chkrootkit)
 - [ ] Firefox Config (not sure how this will be done, there most likely is a config file)
 - [ ] Grub config
 - [x] Remove Samba access (connection between Win and Linux, Google for more info)
