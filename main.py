@@ -406,9 +406,29 @@ def networking_config():
         os.system("sudo sysctl -p")
         log("Fixed up sysctl conf")
 
-# This will be a questionare, which will ask for the list of users, excluding the admins,
-#  and will organize everything/everyone
+# From stack overflow - thanks, ivanleoncz
+def read_and_parse(filename):
+    """
+    Reads and parses lines from /etc/passwd and /etc/group.
 
+    Parameters
+
+    filename : str
+    Full path for filename.
+    """
+    print("hi")
+    data = []
+    with open(filename, "r") as f:
+        for line in f.readlines():
+            data.append(line.split(":")[0])
+        data.sort()
+        # for item in data:
+        #     print("- " + item)
+
+    return data
+
+# This will is a questionare, which will ask for the list of users, excluding the admins,
+#  and will organize everything/everyone
 def autouser_config():
     
     log("Starting automatic labor")
@@ -477,8 +497,7 @@ def autouser_config():
                 log("Added new user (" + user + ") to sudo (admins) group, b/c they are supposed to be there")
                 log("Please go change this person's password to - " + admins[user])
 
-        for user in pwd.getpwall():
-            print(user)
+
             
     print(bordercolors.ENDC)
     
