@@ -416,7 +416,6 @@ def read_and_parse(filename):
     filename : str
     Full path for filename.
     """
-    print("hi")
     data = []
     with open(filename, "r") as f:
         for line in f.readlines():
@@ -501,7 +500,7 @@ def autouser_config():
             userid = pwd.getpwnam(person).pw_uid
             if userid <= 1000 and person not in users:
                 # User exists when they are not supposed to. Remove them.
-                os.system("sudo userdel -r " + person)
+                os.system("sudo userdel -rf " + person)
                 warn("Removed user: " + person)
             
     print(bordercolors.ENDC)
