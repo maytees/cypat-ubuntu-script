@@ -437,10 +437,9 @@ def users():
                 else:
                     log(user + " is okay! Passing.")
         else:
-            # Remove the user, because they are not suppsoed
-            #  to exist
-            os.system("sudo userdel -r " + user)
-            warn("Removed " + user + " b/c they are not supposed to exist!")
+            # Create the new user
+            os.system("sudo useradd -m " + user)
+            warn("Created user -  " + user + " beacuse they are supposed to be a user, though they weren't :(")
                                      
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
