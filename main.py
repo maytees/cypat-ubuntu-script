@@ -513,7 +513,6 @@ setup_questions()
 updates()
 firewall_config()     
 
-print(is_ssh)
 
 if is_ssh:
     config_ssh()
