@@ -34,7 +34,7 @@ This can be used for learning or makingy your own script.
     - [x] chmod 640 /etc/shadow
     - [ ] Change insecure passwords
 - [x] Remove bad applications
-- [ ] Remove media files (mp3, mp4, jpeg, etc) 
+- [x] Remove media files (mp3, mp4, jpeg, etc) 
 - [ ] Anti virus scanner (clamav, rkhunter, chrootkit)
 - [ ] Firefox Config (not sure how this will be done, there most likely is a config file)
 - [ ] Grub config
