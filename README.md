@@ -15,7 +15,7 @@ This can be used for learning or makingy your own script.
 - [x] Updates
     - [x] Dist
     - [x] Normal
-    - [ ] Config security update rules
+    - [x] Config security update rules
 - [x] SSH config
     - [x] Allow/Deny port 22
     - [x] sshd_config file config

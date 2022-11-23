@@ -576,6 +576,24 @@ def rem_samba():
     os.system("sudo rm -rf /var/lib/samba/printers/W32X86")
     log("Removed samba directories")
 
+def periodic_updates():
+    q = input(question("Would you like to enable reccomended periodic updates? (y,n)"))
+    if q == 'n':
+        err("Ok, bye.")
+        return
+    elif q != 'y':
+        err("Please just do y or n")
+    
+    log("Setting periodic updates")
+    
+    with open('./preset_files/20auto-upgrades', 'r') as preset, open('/etc/apt/apt.conf.d/20auto-upgrades', 'w') as autoupgrades:
+        for line in preset:
+            autoupgrades.write(line)
+        preset.close()
+        autoupgrades.close()
+        
+        log("Wrote preset - preset_files/20auto-upgrades to /etc/apt/apt.conf.d/20auto-upgrades")
+    
 def remove_media_files():
     q = input(question("Would you like to remove media files? (y,n)"))
     if q == 'n':
@@ -622,6 +640,7 @@ networking_config()
 users()
 audit_config()
 remove_media_files()
+periodic_updates()
 
 log("Setting home directory perms")
 os.system("for i in $(mawk -F: '$3 > 999 && $3 < 65534 {print $1}' /etc/passwd); do [ -d /home/${i} ] && chmod -R 750 /home/${i}; done")
