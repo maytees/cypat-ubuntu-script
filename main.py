@@ -426,18 +426,21 @@ def users():
             #  if they are supposed to be admin or not, etc 
             if user in admins:
                 if user in sys_admins:
-                    print(user, "is ok")
+                    log(user + " is okay! Passing.")
                 else:
-                    print(user, "is not ok, because they are supposed to be an admin")
+                    os.system("sudo usermod -a -G sudo " + user)
+                    warn("Added " + user + " to sudo group (admins)")
             else:
                 if user in sys_admins:
-                    print(user, "is not ok, because they are not supposed to be an admin")
+                    os.system("sudo gpasswd -d " + user + " sudo")
+                    warn("Removed" + user + " from sudo group (admins), b/c they are not supposed to be there!")
                 else:
-                    print(user, "is ok")
+                    log(user + " is okay! Passing.")
         else:
             # Remove the user, because they are not suppsoed
-            #  to be there
-            pass
+            #  to exist
+            os.system("sudo userdel -r " + user)
+            warn("Removed " + user + " b/c they are not supposed to exist!")
                                      
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
