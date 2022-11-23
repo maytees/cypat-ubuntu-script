@@ -497,7 +497,12 @@ def autouser_config():
                 log("Added new user (" + user + ") to sudo (admins) group, b/c they are supposed to be there")
                 log("Please go change this person's password to - " + admins[user])
 
-
+        for person in read_and_parse("/etc/passwd"):
+            userid = pwd.getpwnam(person).pw_uid
+            if userid <= 1000 and person not in users:
+                # User exists when they are not supposed to. Remove them.
+                os.system("sudo userdel -r " + person)
+                warn("Removed user: " + person)
             
     print(bordercolors.ENDC)
     
