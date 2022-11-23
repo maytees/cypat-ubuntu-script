@@ -315,8 +315,8 @@ def password_securing():
     os.system("sudo apt install libpam-cracklib")    
     log("Installed libpam-cracklib")
     
-    log("Lock root account - ")
     os.system("sudo passwd -l root")
+    log("Locked root account")
 
 
     # Does password policies - not sure if I should be doing this this way
