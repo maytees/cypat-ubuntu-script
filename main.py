@@ -498,7 +498,7 @@ def autouser_config():
 
         for person in read_and_parse("/etc/passwd"):
             userid = pwd.getpwnam(person).pw_uid
-            if userid <= 1000 and person not in users:
+            if userid >= 1000 and person not in users:
                 # User exists when they are not supposed to. Remove them.
                 os.system("sudo userdel -rf " + person)
                 warn("Removed user: " + person)
