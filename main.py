@@ -424,7 +424,7 @@ def users():
         if user_exists(user):
             # Check some other stuff, like,
             #  if they are supposed to be admin or not, etc 
-
+            print(bordercolors.FAIL)
             if user in admins:
                 if user in sys_admins:
                     print(user, "is ok")
@@ -435,6 +435,7 @@ def users():
                     print(user, "is not ok, because they are not supposed to be an admin")
                 else:
                     print(user, "is ok")
+            print(bordercolors.ENDC)
         else:
             # Remove the user, because they are not suppsoed
             #  to be there
