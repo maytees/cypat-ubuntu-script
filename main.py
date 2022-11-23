@@ -65,7 +65,7 @@ is_ssh = False
 is_mail = False
 
 def ask_ufw_stat():
-    q = input(question("Would you like to see UFW status? (Just to make sure nothing is wrong)"))
+    q = input(question("Would you like to see UFW status? (Just to make sure nothing is wrong) (y,n)"))
     if q == 'n':
         warn("Ok.")
         return
