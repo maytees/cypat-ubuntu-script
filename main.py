@@ -662,13 +662,49 @@ def scan_media_files():
 
     log("Please remove the following mp4 files -")
     mp4files = subprocess.getoutput("sudo find / -xdev -type f -name \"*.mp4\"")  
-    
+
+def mail_config():
+    q = input(question("Would you like to setup and configure \"this mail server\" (y,n)"))
+    if q == 'n':
+        log("Ok")
+        return
+    elif q != 'y':
+        err("Please input something accepted?!?")
+        mail_config()
+        return        
+
+    log("Installing Postfix")
+    os.system("apt install postfix -y")
+    log("Installed Postfix")
+
+    os.system("ufw allow 25")
+    log("Alloweds port 25")
+
+def disconfig_mail():
+    q = input(question("Would you like to remove the mail server aspects (y,n)"))
+    if q == 'n':
+        log("Ok")
+        return
+    elif q != 'y':
+        err("Please input something accepted?!?")
+        mail_config()
+        return        
+
+    log("Removing Postfix")
+    os.system("apt remove postfix -y && apt purge postfix -y")
+    log("Removed Postfix")
+
+    os.system("ufw deny 25")
+    log("Blocked port 25")
+
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
     
     log(" - Check /etc/hosts to make sure that there are no malicous \"redirects\"")
     log(" - Check /etc/passwd for users whose uid is 0 (only root is supposed to have uid of zero)")
     log(" - Please run the virus scanners: clamav, rkhunter and chkrootkit")
+    log(" - Please check services to see if they shouldn't be used (try to use bum)")
+    log("     - For example, if this is *not* a mail server, uninstall and remove the postfix server")
 
 setup_questions()             
 updates()
@@ -678,6 +714,11 @@ if is_ssh:
     config_ssh()
 else:
     disconfig_ssh()
+
+if is_mail:
+    mail_config()
+else:
+    disconfig_mail()
 
 ask_ufw_stat() 
 lightdm_config()
