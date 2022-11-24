@@ -25,5 +25,6 @@ auth	required			pam_permit.so
 # and here are more per-package modules (the "Additional" block)
 auth	optional			pam_cap.so 
 
-auth required pam_tally2.so deny=5 onerr=fail unlock_time=1800
+auth	required			pam_faillock.so deny=5 unlock_time=1800
+
 # end of pam-auth-update config
