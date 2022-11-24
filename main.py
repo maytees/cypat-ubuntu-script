@@ -26,7 +26,7 @@ def log(msg):
     print(bordercolors.OKCYAN + msg + bordercolors.ENDC + '\n')
 
 def question(q):
-    return bordercolors.OKGREEN + q + bordercolors.ENDC + '\n'
+    return bordercolors.OKGREEN + q + bordercolors.ENDC
     
 # Checks if script was run with root permissions -
 # Not inspired by stack overflow, not at all
@@ -61,8 +61,17 @@ log("Ok, we are ready to move on :)\n")
 print(bordercolors.WARNING + "--------------------------------------" + bordercolors.ENDC)
 print("\n")
 
+
+# read ./settings/settings.toml
+def get_settings():
+    with open("./settings/settings.toml", 'r') as settings:
+        return toml.load(settings)
+
 is_ssh = False
 is_mail = False
+settings = get_settings()
+
+print(settings)
 
 def ask_ufw_stat():
     q = input(question("Would you like to see UFW status? (Just to make sure nothing is wrong) (y,n)"))
@@ -312,6 +321,9 @@ def password_securing():
     os.system("sudo chmod 640 /etc/shadow")
     log("Gave 640 permissions to /etc/shadow (where passwords are stored)")
     
+    os.system("chmod 640 /etc/passwd")
+    log("Gave 640 permissions to /etc/shadow (user(s) info)")
+
     os.system("sudo apt install libpam-cracklib -y")    
     log("Installed libpam-cracklib")
     
@@ -530,6 +542,8 @@ def manualuser_config():
         return
 
 def users():
+    global settings
+
     uq = input(question("Would you like to configure the users? (y,n)"))
     if uq == 'n':
         return
@@ -551,14 +565,16 @@ def users():
         warn("Really gonna make yourself redo this whole users thing...")
         return
 
-    manuallabor = input(question("Would you like to add/remove any more users by yourself? (y,n)"))
+    manuallabor = input(question("Would you like to add/remove any more users by yourself? (y,n) (probably not if you put stuff into settings.toml)"))
     if manuallabor == 'n':
-        log("Ok, less work for you..")
+        log("Ok, just gonna read the settings.toml file")
+
     elif manuallabor == 'y':
         manualuser_config()
     else:
         warn("Really gotta do this whole users thing again..")
         return
+
 
 def audit_config():
     q = input(question("Would you like me (the script) to config auditing? (y,n)"))
