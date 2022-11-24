@@ -665,13 +665,14 @@ def scan_media_files():
     mp3files = subprocess.getoutput("sudo find / -xdev -type f -name \"*.mp3\"")
 
     log("Please remove the following mp4 files -")
-    mp4files = subprocess.getoutput("sudo find / -xdev -type f -name \"*.mp4\"")
-
+    mp4files = subprocess.getoutput("sudo find / -xdev -type f -name \"*.mp4\"")  
+    
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
     
     log(" - Check /etc/hosts to make sure that there are no malicous \"redirects\"")
     log(" - Check /etc/passwd for users whose uid is 0 (only root is supposed to have uid of zero)")
+    log(" - Please run the virus scanners: clamav, rkhunter and chkrootkit")
 
 setup_questions()             
 updates()
