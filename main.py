@@ -406,14 +406,6 @@ def networking_config():
 
 # From stack overflow - thanks, ivanleoncz
 def read_and_parse(filename):
-    """
-    Reads and parses lines from /etc/passwd and /etc/group.
-
-    Parameters
-
-    filename : str
-    Full path for filename.
-    """
     data = []
     with open(filename, "r") as f:
         for line in f.readlines():
