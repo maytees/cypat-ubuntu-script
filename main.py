@@ -697,6 +697,36 @@ def disconfig_mail():
     os.system("ufw deny 25")
     log("Blocked port 25")
 
+def ftp_config():
+    q = input(question("Would you like to configure FTP? (y,n)"))
+    if q == 'n':
+        log("ok")
+        return
+    elif q != 'y':
+        err("Do smth right")
+        ftp_config()
+        return
+    
+    log("Installing ftp packages")
+    os.system("apt install vsftpd ftp -y")
+    log("Installed ftp packages")
+
+    with open("./preset_files/vsftpd.conf", 'r') as preset, open("/etc/vsftpd.conf", 'w') as vsftpdconf:
+        for line in preset:
+            vsftpdconf.write(line)
+        preset.close()
+        vsftpdconf.close()
+        log("Wrote preset: vsftpd.conf to /etc/vsftpd.conf")
+
+    q = input(question("Would you like to enable vsftpd service? Check Readme (y,n)"))
+    if q == 'y':
+        os.system("systemctl enable vsftpd")
+        os.system("systemctl start vsftpd")
+        log("Started vsftpd services")
+    else:
+        os.system("systemctl stop vsftpd")
+        log("Stoped vsftpd service")
+
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
     
@@ -730,6 +760,7 @@ audit_config()
 scan_media_files()
 periodic_updates()
 apparmor_config()
+ftp_config()
 
 log("Setting home directory perms")
 os.system("for i in $(mawk -F: '$3 > 999 && $3 < 65534 {print $1}' /etc/passwd); do [ -d /home/${i} ] && chmod -R 750 /home/${i}; done")
