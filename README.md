@@ -39,7 +39,6 @@ This can be used for learning or makingy your own script.
 - [x] Remove media files (mp3, mp4, jpeg, etc) 
 - [x] Anti virus scanner (clamav, rkhunter, chkrootkit) - kinda
 - [ ] Firefox Config (not sure how this will be done, there most likely is a config file)
-- [ ] Grub config
 - [x] Remove Samba access (connection between Win and Linux, Google for more info)
   - `sudo apt-get remove --purge samba`
 - [x] SYSCTL Config (/etc/sysctl.conf)
