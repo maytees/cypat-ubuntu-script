@@ -61,17 +61,8 @@ log("Ok, we are ready to move on :)\n")
 print(bordercolors.WARNING + "--------------------------------------" + bordercolors.ENDC)
 print("\n")
 
-
-# read ./settings/settings.toml
-def get_settings():
-    with open("./settings/settings.toml", 'r') as settings:
-        return toml.load(settings)
-
 is_ssh = False
 is_mail = False
-settings = get_settings()
-
-print(settings)
 
 def ask_ufw_stat():
     q = input(question("Would you like to see UFW status? (Just to make sure nothing is wrong) (y,n)"))
@@ -565,10 +556,10 @@ def users():
         warn("Really gonna make yourself redo this whole users thing...")
         return
 
-    manuallabor = input(question("Would you like to add/remove any more users by yourself? (y,n) (probably not if you put stuff into settings.toml)"))
+    manuallabor = input(question("Would you like to add/remove any more users by yourself? (y,n)"))
     if manuallabor == 'n':
-        log("Ok, just gonna read the settings.toml file")
-
+        log("Ok.")
+        return
     elif manuallabor == 'y':
         manualuser_config()
     else:
