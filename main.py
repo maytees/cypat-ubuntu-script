@@ -327,7 +327,7 @@ def password_securing():
         logindefs.close()
     log("Wrote preset ./preset_files/login.defs to /etc/login.defs!")
     
-    commonq = input(question("Would you like to configure common-auth and common-password? (y,n) (this is not reccomended)"))
+    commonq = input(question("Would you like to configure common-auth and common-password? (y,n)"))
     
     if commonq == 'n':
         return
@@ -335,8 +335,6 @@ def password_securing():
         err("Please input a valid option!")
     
     common_config()
-    
-    warn("Please open a new terminal tab and check if `sudo echo hi` has worked, if not, then run: sudo apt remove libpam-cracklib")
     
     log("END OF PASSWORD SECURING")
 
@@ -459,7 +457,6 @@ def autouser_config():
         users.append(adminusername)
 
     sys_admins = subprocess.getoutput("members sudo")    
-    log("The currect admins on this image are: " +  sys_admins)
 
     print(bordercolors.HEADER)
 
@@ -683,8 +680,7 @@ if is_ssh:
 else:
     disconfig_ssh()
 
-ask_ufw_stat()
-
+ask_ufw_stat() 
 lightdm_config()
 remove_bad_apps()
 password_securing()
