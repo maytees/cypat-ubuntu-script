@@ -28,6 +28,7 @@ This can be used for learning or makingy your own script.
 - [x] Passwords
     - [x] Password rules - in /etc/login.defs
     - [x] chmod 640 /etc/shadow
+    - [x] pam config
 - [x] Remove bad applications
 - [x] Remove media files (mp3, mp4, jpeg, etc) 
 - [x] Anti virus scanner (clamav, rkhunter, chkrootkit) - kinda
