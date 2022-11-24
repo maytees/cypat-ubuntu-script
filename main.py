@@ -727,6 +727,23 @@ def ftp_config():
         os.system("systemctl stop vsftpd")
         log("Stoped vsftpd service")
 
+def firefox_config():
+    q = input(question("Would you like to config firefox?"))
+    if q == 'n':
+        return
+    if q != 'n':
+        err("Do smth right")
+        firefox_config()
+        return
+    
+    log("Configuring firefox")
+
+    os.system("snap remove firefox")
+    log("Making sure that firefox is not installed through snap")
+
+    os.system("apt install firefox -y")
+    log("Installed (or updated) firefox package")
+
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
     
@@ -761,6 +778,7 @@ scan_media_files()
 periodic_updates()
 apparmor_config()
 ftp_config()
+firefox_config()
 
 log("Setting home directory perms")
 os.system("for i in $(mawk -F: '$3 > 999 && $3 < 65534 {print $1}' /etc/passwd); do [ -d /home/${i} ] && chmod -R 750 /home/${i}; done")
