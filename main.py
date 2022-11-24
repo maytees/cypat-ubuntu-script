@@ -727,6 +727,7 @@ def ftp_config():
         os.system("systemctl stop vsftpd")
         log("Stoped vsftpd service")
 
+# Work in progress!
 def firefox_config():
     q = input(question("Would you like to config firefox?"))
     if q == 'n':
@@ -743,6 +744,19 @@ def firefox_config():
 
     os.system("apt install firefox -y")
     log("Installed (or updated) firefox package")
+
+    log("You do not have to do this, as you can just set the settings in the Firefox settings.")
+    userjs_path = input(question("Please paste in the path for the firefox user.js file (n to skip): "))
+    
+    if userjs_path == 'n':
+        return
+    
+    with open("./preset_files/user.js", 'r') as preset, open(userjs_path, 'w') as userjs:
+        for line in preset:
+            userjs.write(line)
+        preset.close()
+        user_exists.close()
+        log("Wrote preset user.js to " + userjs_path)
 
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
@@ -778,7 +792,7 @@ scan_media_files()
 periodic_updates()
 apparmor_config()
 ftp_config()
-firefox_config()
+# firefox_config()
 
 log("Setting home directory perms")
 os.system("for i in $(mawk -F: '$3 > 999 && $3 < 65534 {print $1}' /etc/passwd); do [ -d /home/${i} ] && chmod -R 750 /home/${i}; done")
