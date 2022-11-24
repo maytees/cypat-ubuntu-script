@@ -180,7 +180,7 @@ def firewall_config():
                 break
     else:
         log("UFW is not installed, installing it...") 
-        os.system("sudo apt install ufw") 
+        os.system("sudo apt install ufw -y") 
         log("UFW should be installed?")
         
         if fcfg + 1 == 1:
@@ -240,13 +240,13 @@ def lightdm_config():
 def updates():
     updateq = input(question("Would you like to update/upgrade? (y,n)"))
     if updateq == 'y':
-        os.system("sudo apt update")
+        os.system("sudo apt update -y")
         log("Finished sudo apt update")
         
-        os.system("sudo apt upgrade")
+        os.system("sudo apt upgrade -y")
         log("Ran sudo apt upgrade")
 
-        os.system("sudo apt dist-upgrade")
+        os.system("sudo apt dist-upgrade -y")
         log("Ran sudo apt dist upgrade")
         
     elif updateq != 'n':
@@ -270,7 +270,7 @@ def remove_bad_apps():
     progs = badfile.readlines()
     
     for prog in progs:
-        os.system("sudo apt remove " + prog)
+        os.system("sudo apt remove " + prog + " -y")
     
     log("Finished removing bad applications, though please make sure to check for some more, as not all are listed here.")
     
@@ -312,7 +312,7 @@ def password_securing():
     os.system("sudo chmod 640 /etc/shadow")
     log("Gave 640 permissions to /etc/shadow (where passwords are stored)")
     
-    os.system("sudo apt install libpam-cracklib")    
+    os.system("sudo apt install libpam-cracklib -y")    
     log("Installed libpam-cracklib")
     
     os.system("sudo passwd -l root")
@@ -349,7 +349,7 @@ def config_ssh():
         config_ssh()
         return
 
-    os.system("sudo apt install openssh-server ssh")
+    os.system("sudo apt install openssh-server ssh -y")
     log("Installing openssh-server and ssh packages")
 
     os.system("sudo ufw allow 22 && sudo ufw allow ssh")
@@ -378,7 +378,7 @@ def disconfig_ssh():
         disconfig_ssh()
         return
 
-    os.system("sudo apt remove openssh-server ssh")
+    os.system("sudo apt remove openssh-server ssh -y")
     log("Removed SSH packages")
 
     os.system("sudo ufw deny 22 && sudo ufw deny ssh")
@@ -547,7 +547,7 @@ def users():
         return
 
     log("Installing packages - members")
-    os.system("sudo apt install members")
+    os.system("sudo apt install members -y")
     log("Installed package - members")
 
     autolabor = input(question("Would you like this script to do some automatic user handling? (y,n)"))
@@ -580,7 +580,7 @@ def audit_config():
 
     log("Configuring audit(s?).")
 
-    os.system("sudo apt install auditd && auditctl -e 1")
+    os.system("sudo apt install auditd -y && auditctl -e 1")
     log("Enabled audit")
 
 def rem_samba():
@@ -595,7 +595,7 @@ def rem_samba():
 
     log("Removing samba")
 
-    os.system("sudo apt remove samba samba-common samba-common-bin && sudo apt purge samba")
+    os.system("sudo apt remove samba samba-common samba-common-bin -y && sudo apt purge samba -y")
     log("Removed samba packages and directories")
 
     os.system("sudo rm -rf /var/lib/samba/printers/x64")
@@ -630,8 +630,8 @@ def apparmor_config():
         apparmor_config()
         return
     
-    os.system("sudo apt install apparmor")
-    os.system("apt install apparmor-utils")
+    os.system("sudo apt install apparmor -y")
+    os.system("apt install apparmor-utils -y")
 
     log("Apparmor should be installed?")
 
