@@ -8,7 +8,6 @@ This can be used for learning or makingy your own script.
 
 ### Notes/checlists to self -
 
-- [ ] Make this a file questionare
 - [x] Add -y to every apt command
 
 ### Status (more to come as this script progresses) -
