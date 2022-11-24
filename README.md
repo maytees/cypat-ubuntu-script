@@ -20,9 +20,9 @@ This can be used for learning or makingy your own script.
 - [x] SSH config
     - [x] Allow/Deny port 22
     - [x] sshd_config file config
-- [ ] Mail server config
-    - [ ] Postfix
-    - [ ] Allow port(s) (25)
+- [x] Mail server config
+    - [x] Postfix
+    - [x] Allow/deny port(s) (25)
 - [x] UFW Config/setup
 - [x] Lightdm config
 - [x] User remove/add
@@ -33,7 +33,7 @@ This can be used for learning or makingy your own script.
 - [x] Passwords
     - [x] Password rules - in /etc/login.defs
     - [x] chmod 640 /etc/shadow
-    - [ ] chmod 640 /etc/passwd
+    - [x] chmod 640 /etc/passwd
     - [x] pam config
 - [x] Remove bad applications
 - [x] Remove media files (mp3, mp4, jpeg, etc) 
