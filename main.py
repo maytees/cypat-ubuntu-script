@@ -766,6 +766,7 @@ def what_to_do_next():
     log(" - Please run the virus scanners: clamav, rkhunter and chkrootkit")
     log(" - Please check services to see if they shouldn't be used (try to use bum)")
     log("     - For example, if this is *not* a mail server, uninstall and remove the postfix server")
+    log(" - Check /etc/sudoers.d and /etc/sudoers for suspicous configs")
 
 setup_questions()             
 updates()
