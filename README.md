@@ -45,3 +45,4 @@ This can be used for learning or makingy your own script.
 - [x] SYSCTL Config (/etc/sysctl.conf)
 - [x] Audit config
 - [x] Apparmor
+- [x] SELinux Conf

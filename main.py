@@ -579,11 +579,14 @@ def audit_config():
         err("Ok lets try this again.")
         audit_config()
         return
-
+    
     log("Configuring audit(s?).")
-
+    
     os.system("sudo apt install auditd -y && auditctl -e 1")
     log("Enabled audit")
+    
+    os.system("service auditd start")
+    log("Started auditd service")
 
 def rem_samba():
     q = input(question("Would you like to remove SAMBA stuff? (comm with Windows) (y,n)"))
@@ -760,6 +763,33 @@ def firefox_config():
         preset.close()
         user_exists.close()
         log("Wrote preset user.js to " + userjs_path)
+
+def selinux_config():
+    q = input(question("Would you line to configure (and enable) SELinux (y,n)"))
+    if q == 'n':
+        return
+    elif q != 'y':
+        log("write y or n")
+        selinux_config()
+        return
+    
+    log("Installing packages for SELinux")
+    os.system("apt install policycoreutils selinux-utils selinux-basics")
+    
+    log("Activating SELinux")
+    os.system("selinux-activate")
+    log("Activated SELinux")
+    
+    os.system("selinux-config-enforcing")
+    os.system("Set SELinux mode to enforcing")
+    
+    warn("------------------")
+    err("-------------------")
+    
+    log("PLEASE REBOOT THIS WHEN YOU CAN SO SELINUX ENFORCING MODE WILL GET APPLIED!")
+    
+    warn("------------------")
+    err("-------------------")
 
 def what_to_do_next():
     log("There are some things that this script can't do very well. So here are a list of things to do since we are done.")
