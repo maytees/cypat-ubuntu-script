@@ -65,6 +65,14 @@ is_ssh = False
 is_mail = False
 
 def preset_to_conf(preset, conf):
+    # Writes backup
+    with open(conf, 'r') as configfile, open('./backups/' + preset) as bak:
+        for line in configfile:
+            bak.write(line)
+        configfile.close()
+        bak.close()
+    
+    # Writes the config
     with open('./preset_files/' + preset, 'r') as presetfile, open(conf, 'w') as configfile:
         for line in presetfile:
             configfile.write(line)
