@@ -64,6 +64,13 @@ print("\n")
 is_ssh = False
 is_mail = False
 
+def preset_to_conf(preset, conf):
+    with open('./preset_files/' + preset, 'r') as presetfile, open(conf, 'w') as configfile:
+        for line in presetfile:
+            configfile.write(line)
+        presetfile.close()
+        configfile.close() 
+            
 def ask_ufw_stat():
     q = input(question("Would you like to see UFW status? (Just to make sure nothing is wrong) (y,n)"))
     if q == 'n':
@@ -277,18 +284,20 @@ def remove_bad_apps():
     log("END OF REMOVE BAD APPS")
 
 def common_config():
-    with open('./preset_files/common-auth', 'r') as preset, open('/etc/pam.d/common-auth', 'w') as common_auth:
-        for line in preset:
-            common_auth.write(line)
-        preset.close()
-        common_auth.close()
+    # with open('./preset_files/common-auth', 'r') as preset, open('/etc/pam.d/common-auth', 'w') as common_auth:
+    #     for line in preset:
+    #         common_auth.write(line)
+    #     preset.close()
+    #     common_auth.close()
+    preset_to_conf('common-auth', '/etc/pam.d/common-auth')
     log("Wrote preset ./preset_files/common-auth to /etc/pam.d/common-auth")
     
-    with open('./preset_files/common-password', 'r') as preset, open('/etc/pam.d/common-password', 'w') as common_password:
-        for line in preset:
-            common_password.write(line)
-        preset.close()
-        common_password.close()
+    # with open('./preset_files/common-password', 'r') as preset, open('/etc/pam.d/common-password', 'w') as common_password:
+    #     for line in preset:
+    #         common_password.write(line)
+    #     preset.close()
+    #     common_password.close()
+    preset_to_conf('common-password', '/etc/pam.d/common-password')
     log("Wrote preset ./preset_files/common-password to /etc/pam.d/common-password")
     
     log("END OF COMMON CONFIG")    
@@ -326,11 +335,12 @@ def password_securing():
 
 
     # Does password policies - not sure if I should be doing this this way
-    with open('./preset_files/login.defs', 'r') as preset, open('/etc/login.defs', 'w') as logindefs:
-        for line in preset:
-            logindefs.write(line)
-        preset.close()
-        logindefs.close()
+    # with open('./preset_files/login.defs', 'r') as preset, open('/etc/login.defs', 'w') as logindefs:
+    #     for line in preset:
+    #         logindefs.write(line)
+    #     preset.close()
+    #     logindefs.close()
+    preset_to_conf('login.defs', '/etc/login.defs')
     log("Wrote preset ./preset_files/login.defs to /etc/login.defs!")
     
     commonq = input(question("Would you like to configure common-auth and common-password? (y,n)"))
@@ -361,13 +371,13 @@ def config_ssh():
     os.system("sudo ufw allow 22 && sudo ufw allow ssh")
     log("Opened SSH port")
     
-    # Config /etc/ssh/sshd_config
-    # NOTE TO SELF - MAKE SURE TO CLOSE THE FILE AFTER
-    with open("./preset_files/sshd_config", 'r') as preset, open("/etc/ssh/sshd_config", 'w') as sshdconfig:
-        for line in preset:
-            sshdconfig.write(line)
-        preset.close()
-        sshdconfig.close()
+    # with open("./preset_files/sshd_config", 'r') as preset, open("/etc/ssh/sshd_config", 'w') as sshdconfig:
+    #     for line in preset:
+    #         sshdconfig.write(line)
+    #     preset.close()
+    #     sshdconfig.close()
+    
+    preset_to_conf('sshd_config', '/etc/ssh/sshd_config')    
 
     os.system("sudo service sshd reload")
     log("Reloaded sshd service")
@@ -402,14 +412,17 @@ def networking_config():
         networking_config()
         return
 
-    with open('./preset_files/sysctl.conf', 'r') as preset, open('/etc/sysctl.conf', 'w') as sysctl:
-        for line in preset:
-            sysctl.write(line)
-        preset.close()
-        sysctl.close()
-        os.system("sudo sysctl -p")
-        log("Fixed up sysctl conf")
+    # with open('./preset_files/sysctl.conf', 'r') as preset, open('/etc/sysctl.conf', 'w') as sysctl:
+    #     for line in preset:
+    #         sysctl.write(line)
+    #     preset.close()
+    #     sysctl.close()
 
+    preset_to_conf('sysctl.conf', '/etc/sysctl.conf')
+
+    os.system("sudo sysctl -p")
+    log("Fixed up sysctl conf")
+        
 # From stack overflow - thanks, ivanleoncz
 def read_and_parse(filename):
     data = []
@@ -617,13 +630,14 @@ def periodic_updates():
     
     log("Setting periodic updates")
     
-    with open('./preset_files/20auto-upgrades', 'r') as preset, open('/etc/apt/apt.conf.d/20auto-upgrades', 'w') as autoupgrades:
-        for line in preset:
-            autoupgrades.write(line)
-        preset.close()
-        autoupgrades.close()
-        
-        log("Wrote preset - preset_files/20auto-upgrades to /etc/apt/apt.conf.d/20auto-upgrades")
+    # with open('./preset_files/20auto-upgrades', 'r') as preset, open('/etc/apt/apt.conf.d/20auto-upgrades', 'w') as autoupgrades:
+    #     for line in preset:
+    #         autoupgrades.write(line)
+    #     preset.close()
+    #     autoupgrades.close()
+    
+    preset_to_conf('20auto-upgrades', '/etc/apt/apt.conf.d/20auto-upgrades')
+    log("Wrote preset - preset_files/20auto-upgrades to /etc/apt/apt.conf.d/20auto-upgrades")
 
 def apparmor_config():
     q = input(question("Would you like to configure apparmor? (y,n)"))
@@ -717,12 +731,14 @@ def ftp_config():
     os.system("apt install vsftpd ftp -y")
     log("Installed ftp packages")
 
-    with open("./preset_files/vsftpd.conf", 'r') as preset, open("/etc/vsftpd.conf", 'w') as vsftpdconf:
-        for line in preset:
-            vsftpdconf.write(line)
-        preset.close()
-        vsftpdconf.close()
-        log("Wrote preset: vsftpd.conf to /etc/vsftpd.conf")
+    # with open("./preset_files/vsftpd.conf", 'r') as preset, open("/etc/vsftpd.conf", 'w') as vsftpdconf:
+    #     for line in preset:
+    #         vsftpdconf.write(line)
+    #     preset.close()
+    #     vsftpdconf.close()
+
+    preset_to_conf('vsftpd.conf', '/etc/vsftpd.conf')
+    log("Wrote preset: vsftpd.conf to /etc/vsftpd.conf") 
 
     q = input(question("Would you like to enable vsftpd service? Check Readme (y,n)"))
     if q == 'y':
@@ -761,7 +777,7 @@ def firefox_config():
         for line in preset:
             userjs.write(line)
         preset.close()
-        user_exists.close()
+        user_exists.close() 
         log("Wrote preset user.js to " + userjs_path)
 
 def selinux_config():
