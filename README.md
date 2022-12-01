@@ -9,7 +9,7 @@ This can be used for learning or makingy your own script.
 ### Notes/checlists to self -
 
 - [x] Add -y to every apt command
-- [ ] Create backups for config files in case some stuff break
+- [x] Create backups for config files in case some stuff break
 
 ### Status (more to come as this script progresses) - 
 - [x] Updates
