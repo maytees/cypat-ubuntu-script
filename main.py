@@ -314,6 +314,9 @@ def password_securing():
     
     os.system("chmod 640 /etc/passwd")
     log("Gave 640 permissions to /etc/shadow (user(s) info)")
+    
+    os.system("chmod 640 /etc/group")
+    log("Gave 640 permissions to /etc/group (group(s) info)")
 
     os.system("sudo apt install libpam-cracklib -y")    
     log("Installed libpam-cracklib")
