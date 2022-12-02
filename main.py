@@ -853,6 +853,7 @@ periodic_updates()
 apparmor_config()
 ftp_config()
 # firefox_config()
+selinux_config()
 
 log("Setting home directory perms")
 os.system("for i in $(mawk -F: '$3 > 999 && $3 < 65534 {print $1}' /etc/passwd); do [ -d /home/${i} ] && chmod -R 750 /home/${i}; done")
