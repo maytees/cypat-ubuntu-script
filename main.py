@@ -264,6 +264,8 @@ def updates():
         os.system("sudo apt dist-upgrade -y")
         log("Ran sudo apt dist upgrade")
         
+        os.system("update-manager -d")
+        log("Ran forced UI update")
     elif updateq != 'n':
         err("Can you please type something that is accepted?")
         updates()
