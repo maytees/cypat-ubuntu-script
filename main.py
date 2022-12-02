@@ -66,7 +66,7 @@ is_mail = False
 
 def preset_to_conf(preset, conf):
     # Writes backup
-    with open(conf, 'r') as configfile, open('./backups/' + preset) as bak:
+    with open(conf, 'r') as configfile, open('./backups/' + preset, 'w') as bak:
         for line in configfile:
             bak.write(line)
         configfile.close()
