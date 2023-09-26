@@ -727,6 +727,19 @@ def disconfig_mail():
     os.system("ufw deny 25")
     log("Blocked port 25")
 
+def disable_nginx():
+    q = input(question("Would you like to disable nginx? (saying no means enable it) (y,n)"))
+    if q == 'n':
+        # Enable nginx
+        os.system("systemctl start nginx")
+    elif q == 'y':
+        # Disable nginx
+        os.system("systemctl stop nginx")
+    else:
+        err("Please input y or n")
+        disable_nginx()
+        return
+
 def ftp_config():
     q = input(question("Would you like to configure FTP? (y,n)"))
     if q == 'n':
@@ -842,6 +855,7 @@ else:
     disconfig_mail()
 
 ask_ufw_stat() 
+disable_nginx()
 lightdm_config()
 remove_bad_apps()
 password_securing()
