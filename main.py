@@ -66,18 +66,13 @@ is_mail = False
 
 def preset_to_conf(preset, conf):
     # Writes backup
+    # Use append mode for ./backups/, instead of contstantly overwriting the previous line.
     with open(conf, 'r') as configfile, open('./backups/' + preset, 'w') as bak:
-        for line in configfile:
-            bak.write(line)
-        configfile.close()
-        bak.close()
+        bak.write(configfile.read())
     
     # Writes the config
     with open('./preset_files/' + preset, 'r') as presetfile, open(conf, 'w') as configfile:
-        for line in presetfile:
-            configfile.write(line)
-        presetfile.close()
-        configfile.close() 
+        configfile.write(presetfile.read())
             
 def ask_ufw_stat():
     q = input(question("Would you like to see UFW status? (Just to make sure nothing is wrong) (y,n)"))
@@ -90,7 +85,7 @@ def ask_ufw_stat():
 
     # Debugging purposes
     log("UFW Status: ")
-    os.system("sudo ufw status")
+    os.system("ufw status")
 
 def user_exists(username):
     try:
@@ -154,10 +149,10 @@ def firewall_config():
     if exists("/bin/ufw") or exists("/usr/bin/ufw") or exists("/usr/sbin/ufw"):
         log("UFW exists, configuring..")
         
-        os.system("sudo ufw enable")
+        os.system("ufw enable")
         log("Enabled UFW")
         
-        os.system("sudo ufw logging full")
+        os.system("ufw logging full")
         log("Enabled full logging for UFW")
 
         notdone = True
@@ -167,13 +162,13 @@ def firewall_config():
                 port = input(question("What port would you like to allow? (type 'n' for none)"))
                 
                 if port.isnumeric():
-                    os.system("sudo ufw allow " + port)
+                    os.system("ufw allow " + port)
                     log("Allowed port: " + port)
                 elif port == "n":
                     # ask for deny
                     port = input(question("What ports would you like to deny? (type 'n' for none)"))
                     if port.isnumeric():
-                        os.system("sudo ufw deny " + port)
+                        os.system("ufw deny " + port)
                         log("Blocked port: " + port)
                     elif port == "n":
                         notdone = False
@@ -195,7 +190,7 @@ def firewall_config():
                 break
     else:
         log("UFW is not installed, installing it...") 
-        os.system("sudo apt install ufw -y") 
+        os.system("apt install ufw -y") 
         log("UFW should be installed?")
         
         if fcfg + 1 == 1:
@@ -255,13 +250,13 @@ def lightdm_config():
 def updates():
     updateq = input(question("Would you like to update/upgrade? (y,n)"))
     if updateq == 'y':
-        os.system("sudo apt update -y")
+        os.system("apt update -y")
         log("Finished sudo apt update")
         
-        os.system("sudo apt upgrade -y")
+        os.system("apt upgrade -y")
         log("Ran sudo apt upgrade")
 
-        os.system("sudo apt dist-upgrade -y")
+        os.system("apt dist-upgrade -y")
         log("Ran sudo apt dist upgrade")
         
         os.system("update-manager -d")
@@ -287,7 +282,7 @@ def remove_bad_apps():
     progs = badfile.readlines()
     
     for prog in progs:
-        os.system("sudo apt remove " + prog + " -y")
+        os.system("apt remove " + prog + " -y")
     
     log("Finished removing bad applications, though please make sure to check for some more, as not all are listed here.")
     
@@ -295,18 +290,12 @@ def remove_bad_apps():
 
 def common_config():
     # with open('./preset_files/common-auth', 'r') as preset, open('/etc/pam.d/common-auth', 'w') as common_auth:
-    #     for line in preset:
-    #         common_auth.write(line)
-    #     preset.close()
-    #     common_auth.close()
+    #         common_auth.write(preset.read())
     preset_to_conf('common-auth', '/etc/pam.d/common-auth')
     log("Wrote preset ./preset_files/common-auth to /etc/pam.d/common-auth")
     
     # with open('./preset_files/common-password', 'r') as preset, open('/etc/pam.d/common-password', 'w') as common_password:
-    #     for line in preset:
-    #         common_password.write(line)
-    #     preset.close()
-    #     common_password.close()
+    #         common_password.write(preset.read())
     preset_to_conf('common-password', '/etc/pam.d/common-password')
     log("Wrote preset ./preset_files/common-password to /etc/pam.d/common-password")
     
@@ -328,7 +317,7 @@ def password_securing():
         password_securing()
         return
     
-    os.system("sudo chmod 640 /etc/shadow")
+    os.system("chmod 640 /etc/shadow")
     log("Gave 640 permissions to /etc/shadow (where passwords are stored)")
     
     os.system("chmod 640 /etc/passwd")
@@ -337,19 +326,16 @@ def password_securing():
     os.system("chmod 640 /etc/group")
     log("Gave 640 permissions to /etc/group (group(s) info)")
 
-    os.system("sudo apt install libpam-cracklib -y")    
+    os.system("apt install libpam-cracklib -y")    
     log("Installed libpam-cracklib")
     
-    os.system("sudo passwd -l root")
+    os.system("passwd -l root")
     log("Locked root account")
 
 
     # Does password policies - not sure if I should be doing this this way
     # with open('./preset_files/login.defs', 'r') as preset, open('/etc/login.defs', 'w') as logindefs:
-    #     for line in preset:
-    #         logindefs.write(line)
-    #     preset.close()
-    #     logindefs.close()
+    #     logindefs.write(preset.read())
     preset_to_conf('login.defs', '/etc/login.defs')
     log("Wrote preset ./preset_files/login.defs to /etc/login.defs!")
     
@@ -375,17 +361,14 @@ def config_ssh():
         config_ssh()
         return
 
-    os.system("sudo apt install openssh-server ssh -y")
+    os.system("apt install openssh-server ssh -y")
     log("Installing openssh-server and ssh packages")
 
-    os.system("sudo ufw allow 22 && sudo ufw allow ssh")
+    os.system("ufw allow 22 && ufw allow ssh")
     log("Opened SSH port")
     
     # with open("./preset_files/sshd_config", 'r') as preset, open("/etc/ssh/sshd_config", 'w') as sshdconfig:
-    #     for line in preset:
-    #         sshdconfig.write(line)
-    #     preset.close()
-    #     sshdconfig.close()
+    #     sshdconfig.write(preset.read())
     
     preset_to_conf('sshd_config', '/etc/ssh/sshd_config')    
 
@@ -404,10 +387,10 @@ def disconfig_ssh():
         disconfig_ssh()
         return
 
-    os.system("sudo apt remove openssh-server ssh -y")
+    os.system("apt remove openssh-server ssh -y")
     log("Removed SSH packages")
 
-    os.system("sudo ufw deny 22 && sudo ufw deny ssh")
+    os.system("ufw deny 22 && ufw deny ssh")
     log("Closed SSH port")
     
     log("END OF DISCONFIG SSH")
@@ -423,14 +406,11 @@ def networking_config():
         return
 
     # with open('./preset_files/sysctl.conf', 'r') as preset, open('/etc/sysctl.conf', 'w') as sysctl:
-    #     for line in preset:
-    #         sysctl.write(line)
-    #     preset.close()
-    #     sysctl.close()
+    #     sysctl.write(preset.read())
 
     preset_to_conf('sysctl.conf', '/etc/sysctl.conf')
 
-    os.system("sudo sysctl -p")
+    os.system("sysctl -p")
     log("Fixed up sysctl conf")
         
 # From stack overflow - thanks, ivanleoncz
@@ -492,11 +472,11 @@ def autouser_config():
                     # log(user + " is okay! Passing.")
                     pass
                 else:
-                    os.system("sudo usermod -a -G sudo " + user)
+                    os.system("usermod -a -G sudo " + user)
                     print("Added " + user + " to sudo group (admins)")
             else:
                 if user in sys_admins:
-                    os.system("sudo gpasswd -d " + user + " sudo")
+                    os.system("gpasswd -d " + user + " sudo")
                     print("Removed " + user + " from sudo group (admins), b/c they are not supposed to be there!")
                 else:
                     print(user, "is ok!")
@@ -505,12 +485,12 @@ def autouser_config():
         else:
             # Create the new user
             #   - check if they are supposed to be an admin
-            os.system("sudo useradd -m " + user)
+            os.system("useradd -m " + user)
             print("Created user -  " + user + " beacuse they are supposed to be a user, though they weren't :(")
 
             if user in admins:
                 # Add user to sudo group
-                os.system("sudo usermod -a -G sudo " + user)
+                os.system("usermod -a -G sudo " + user)
                 log("Added new user (" + user + ") to sudo (admins) group, b/c they are supposed to be there")
                 log("Please go change this person's password to - " + admins[user])
         
@@ -519,7 +499,7 @@ def autouser_config():
         userid = pwd.getpwnam(person).pw_uid
         if userid >= 1000 and person not in users:
             # User exists when they are not supposed to. Remove them.
-            os.system("sudo userdel -rf " + person)
+            os.system("userdel -rf " + person)
             warn("Removed user: " + person) 
     print(bordercolors.ENDC)    
 
@@ -534,7 +514,7 @@ def manualuser_config():
                 warn("Ok, exiting")
                 break
 
-            os.system("sudo userdel -r " + user)
+            os.system("userdel -r " + user)
             log("removed user: " + user)
     elif rem == 'n':
         create = input(question("Would you like to add any users? (y,n)"))
@@ -546,7 +526,7 @@ def manualuser_config():
                     warn("Ok, exiting")
                     break
 
-                os.system("sudo useradd -m " + user)
+                os.system("useradd -m " + user)
                 log("Created new user: " + user)
         elif create == 'n':
             err("Nothing. Okay.")
@@ -570,7 +550,7 @@ def users():
         return
 
     log("Installing packages - members")
-    os.system("sudo apt install members -y")
+    os.system("apt install members -y")
     log("Installed package - members")
 
     autolabor = input(question("Would you like this script to do some automatic user handling? (y,n)"))
@@ -605,7 +585,7 @@ def audit_config():
     
     log("Configuring audit(s?).")
     
-    os.system("sudo apt install auditd -y && auditctl -e 1")
+    os.system("apt install auditd -y && auditctl -e 1")
     log("Enabled audit")
     
     os.system("service auditd start")
@@ -623,11 +603,11 @@ def rem_samba():
 
     log("Removing samba")
 
-    os.system("sudo apt remove samba samba-common samba-common-bin -y && sudo apt purge samba -y")
+    os.system("apt remove samba samba-common samba-common-bin -y && sudo apt purge samba -y")
     log("Removed samba packages and directories")
 
-    os.system("sudo rm -rf /var/lib/samba/printers/x64")
-    os.system("sudo rm -rf /var/lib/samba/printers/W32X86")
+    os.system("rm -rf /var/lib/samba/printers/x64")
+    os.system("rm -rf /var/lib/samba/printers/W32X86")
     log("Removed samba directories")
 
 def periodic_updates():
@@ -641,10 +621,7 @@ def periodic_updates():
     log("Setting periodic updates")
     
     # with open('./preset_files/20auto-upgrades', 'r') as preset, open('/etc/apt/apt.conf.d/20auto-upgrades', 'w') as autoupgrades:
-    #     for line in preset:
-    #         autoupgrades.write(line)
-    #     preset.close()
-    #     autoupgrades.close()
+    #     autoupgrades.write(preset.read())
     
     preset_to_conf('20auto-upgrades', '/etc/apt/apt.conf.d/20auto-upgrades')
     log("Wrote preset - preset_files/20auto-upgrades to /etc/apt/apt.conf.d/20auto-upgrades")
@@ -659,7 +636,7 @@ def apparmor_config():
         apparmor_config()
         return
     
-    os.system("sudo apt install apparmor -y")
+    os.system("apt install apparmor -y")
     os.system("apt install apparmor-utils -y")
 
     log("Apparmor should be installed?")
@@ -688,10 +665,10 @@ def scan_media_files():
     log("Removing media files.")
 
     log("Please remove the following mp3 files -")
-    mp3files = subprocess.getoutput("sudo find / -xdev -type f -name \"*.mp3\"")
+    mp3files = subprocess.getoutput("find / -xdev -type f -name \"*.mp3\"")
 
     log("Please remove the following mp4 files -")
-    mp4files = subprocess.getoutput("sudo find / -xdev -type f -name \"*.mp4\"")  
+    mp4files = subprocess.getoutput("find / -xdev -type f -name \"*.mp4\"")  
 
 def mail_config():
     q = input(question("Would you like to setup and configure \"this mail server\" (y,n)"))
@@ -755,10 +732,7 @@ def ftp_config():
     log("Installed ftp packages")
 
     # with open("./preset_files/vsftpd.conf", 'r') as preset, open("/etc/vsftpd.conf", 'w') as vsftpdconf:
-    #     for line in preset:
-    #         vsftpdconf.write(line)
-    #     preset.close()
-    #     vsftpdconf.close()
+    #     vsftpdconf.write(preset.read())
 
     preset_to_conf('vsftpd.conf', '/etc/vsftpd.conf')
     log("Wrote preset: vsftpd.conf to /etc/vsftpd.conf") 
