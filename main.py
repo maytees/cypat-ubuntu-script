@@ -46,6 +46,7 @@ print(" - 1st of all, I would like you to paste in the non admin users in the ./
 print("    - Refer to the ./examples/non-admins-example.txt for a reference on formatting")
 print(" - 2nd of all, I would like you to paste in the administrator users in the ./settings/admins.txt, please separate the passwords with a space")
 print("    - Refer to the ./examples/admins-example.txt for a reference on formatting")
+print(" - 3rd of all, FINISH FORENSIC QUESTIONS FIRST, BECAUSE YOU MAY REMOVE SOME IMPORTANT FILES, USERS, GROUPS, ETC.")
 print(bordercolors.ENDC) #ends cyan color 
 
 err("Please go make changes before you continue.")
