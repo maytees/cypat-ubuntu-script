@@ -735,7 +735,7 @@ def disable_nginx():
         os.system("systemctl start nginx")
     elif q == 'y':
         # Disable nginx
-        os.system("systemctl stop nginx")
+        os.system("systemctl disable nginx")
     else:
         err("Please input y or n")
         disable_nginx()
