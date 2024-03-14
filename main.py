@@ -68,17 +68,11 @@ is_mail = False
 def preset_to_conf(preset, conf):
     # Writes backup
     with open(conf, 'r') as configfile, open('./backups/' + preset, 'w') as bak:
-        for line in configfile:
-            bak.write(line)
-        configfile.close()
-        bak.close()
+        bak.writelines(configfile.readlines())
     
     # Writes the config
     with open('./preset_files/' + preset, 'r') as presetfile, open(conf, 'w') as configfile:
-        for line in presetfile:
-            configfile.write(line)
-        presetfile.close()
-        configfile.close() 
+        configfile.writelines(presetfile.readlines())
             
 def ask_ufw_stat():
     q = input(question("Would you like to see UFW status? (Just to make sure nothing is wrong) (y,n)"))
@@ -244,9 +238,8 @@ def lightdm_config():
         settings = "\nallow-guest=false\ngreeter-hide-users=true\ngreeter-show-manual-login=true\nautologin-user=none"
         log(f"Adding settings: {settings}, to {path}")
         
-        lightdmconf = open(path, "a")
-        lightdmconf.write(settings)
-        lightdmconf.close()
+        with open(path, "a") as lightdmconf:
+            lightdmconf.write(settings)
     else:
         warn("Could not find lightdm config! Exiting lightdm config!.")
         return # don't know why I should have this here
@@ -296,18 +289,12 @@ def remove_bad_apps():
 
 def common_config():
     # with open('./preset_files/common-auth', 'r') as preset, open('/etc/pam.d/common-auth', 'w') as common_auth:
-    #     for line in preset:
-    #         common_auth.write(line)
-    #     preset.close()
-    #     common_auth.close()
+    #     common_auth.writelines(preset.readlines())
     preset_to_conf('common-auth', '/etc/pam.d/common-auth')
     log("Wrote preset ./preset_files/common-auth to /etc/pam.d/common-auth")
     
     # with open('./preset_files/common-password', 'r') as preset, open('/etc/pam.d/common-password', 'w') as common_password:
-    #     for line in preset:
-    #         common_password.write(line)
-    #     preset.close()
-    #     common_password.close()
+    #     common_password.writelines(preset.readlines())
     preset_to_conf('common-password', '/etc/pam.d/common-password')
     log("Wrote preset ./preset_files/common-password to /etc/pam.d/common-password")
     
@@ -347,10 +334,7 @@ def password_securing():
 
     # Does password policies - not sure if I should be doing this this way
     # with open('./preset_files/login.defs', 'r') as preset, open('/etc/login.defs', 'w') as logindefs:
-    #     for line in preset:
-    #         logindefs.write(line)
-    #     preset.close()
-    #     logindefs.close()
+    #     logindefs.writelines(preset.readlines())
     preset_to_conf('login.defs', '/etc/login.defs')
     log("Wrote preset ./preset_files/login.defs to /etc/login.defs!")
     
@@ -383,10 +367,7 @@ def config_ssh():
     log("Opened SSH port")
     
     # with open("./preset_files/sshd_config", 'r') as preset, open("/etc/ssh/sshd_config", 'w') as sshdconfig:
-    #     for line in preset:
-    #         sshdconfig.write(line)
-    #     preset.close()
-    #     sshdconfig.close()
+    #     sshdconfig.writelines(preset.readlines())
     
     preset_to_conf('sshd_config', '/etc/ssh/sshd_config')    
 
@@ -424,10 +405,7 @@ def networking_config():
         return
 
     # with open('./preset_files/sysctl.conf', 'r') as preset, open('/etc/sysctl.conf', 'w') as sysctl:
-    #     for line in preset:
-    #         sysctl.write(line)
-    #     preset.close()
-    #     sysctl.close()
+    #     sysctl.writelines(preset.readlines())
 
     preset_to_conf('sysctl.conf', '/etc/sysctl.conf')
 
@@ -451,18 +429,11 @@ def read_and_parse(filename):
 def autouser_config():
     
     log("Starting automatic labor")
-
-    admins_file = open("./settings/admins.txt", 'r')
-    non_admins_file = open("./settings/non-admins.txt", 'r')
-
-    adminsdat = admins_file.read()
-    nonadminsdat = non_admins_file.read()
-
-    adminswpass = adminsdat.splitlines()
-    non_admins = nonadminsdat.splitlines()
-
-    admins_file.close()
-    non_admins_file.close()
+    
+    with open("./settings/admins.txt", 'r') as admins_file:
+        with open("./settings/non-admins.txt", 'r') as non_admins_file:
+            adminswpass = admins_file.readlines().rstrip("\n")
+            non_admins = non_admins_file.readlines().rstrip("\n")
 
     # Split the admins into a dictionary, with a "name : pasword" format 
     admins = {}    
@@ -642,10 +613,7 @@ def periodic_updates():
     log("Setting periodic updates")
     
     # with open('./preset_files/20auto-upgrades', 'r') as preset, open('/etc/apt/apt.conf.d/20auto-upgrades', 'w') as autoupgrades:
-    #     for line in preset:
-    #         autoupgrades.write(line)
-    #     preset.close()
-    #     autoupgrades.close()
+    #     autoupgrades.writelines(preset.readlines())
     
     preset_to_conf('20auto-upgrades', '/etc/apt/apt.conf.d/20auto-upgrades')
     log("Wrote preset - preset_files/20auto-upgrades to /etc/apt/apt.conf.d/20auto-upgrades")
@@ -756,11 +724,7 @@ def ftp_config():
     log("Installed ftp packages")
 
     # with open("./preset_files/vsftpd.conf", 'r') as preset, open("/etc/vsftpd.conf", 'w') as vsftpdconf:
-    #     for line in preset:
-    #         vsftpdconf.write(line)
-    #     preset.close()
-    #     vsftpdconf.close()
-
+    #     vsftpdconf.writelines(preset.readlines())
     preset_to_conf('vsftpd.conf', '/etc/vsftpd.conf')
     log("Wrote preset: vsftpd.conf to /etc/vsftpd.conf") 
 
@@ -798,10 +762,7 @@ def firefox_config():
         return
     
     with open("./preset_files/user.js", 'r') as preset, open(userjs_path, 'w') as userjs:
-        for line in preset:
-            userjs.write(line)
-        preset.close()
-        user_exists.close() 
+        userjs.writelines(preset.readlines())
         log("Wrote preset user.js to " + userjs_path)
 
 def selinux_config():
