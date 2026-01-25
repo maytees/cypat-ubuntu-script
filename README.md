@@ -6,7 +6,7 @@ This script/project cannot be used for Cyberpatriot teams other than Cybarra.
 
 This can be used for learning or makingy your own script.
 
-### Notes/checlists to self -
+### Notes/checklists to self -
 
 - [x] Add -y to every apt command
 - [x] Create backups for config files in case some stuff break
