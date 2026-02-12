@@ -62,9 +62,6 @@ log("Ok, we are ready to move on :)\n")
 print(bordercolors.WARNING + "--------------------------------------" + bordercolors.ENDC)
 print("\n")
 
-is_ssh = False
-is_mail = False
-
 def preset_to_conf(preset, conf):
     # Writes backup
     with open(conf, 'r') as configfile, open('./backups/' + preset, 'w') as bak:
@@ -108,10 +105,8 @@ def is_admin(user, admins):
     return False
     
 def setup_questions():
+    is_ssh, is_mail = False
     log("These are some setup questions: ")
-    
-    global is_ssh
-    global is_mail
 
     setupqssh = input(question(" - Is this an SSH server? Should this machine have SSH enabled? (y,n)"))
     if setupqssh == 'y':
@@ -121,7 +116,7 @@ def setup_questions():
     else:
         err("Lets try this again..")
         setup_questions()
-        return
+        return is_ssh, is_mail
 
     setupqmail = input(question(" - Is this a mail server? (y,n)"))
     if setupqmail == 'y':
@@ -131,7 +126,7 @@ def setup_questions():
     else:
         err("Lets try this again.")
         setup_questions()
-        return
+        return is_ssh, is_mail
         
     log("END OF SETUP QUESTIONS")    
 
@@ -560,8 +555,6 @@ def manualuser_config():
         return
 
 def users():
-    global settings
-
     uq = input(question("Would you like to configure the users? (y,n)"))
     if uq == 'n':
         return
@@ -841,7 +834,7 @@ def what_to_do_next():
     log("     - For example, if this is *not* a mail server, uninstall and remove the postfix server")
     log(" - Check /etc/sudoers.d and /etc/sudoers for suspicous configs")
 
-setup_questions()             
+is_ssh, is_mail = setup_questions()           
 updates()
 firewall_config()     
 
